@@ -9,7 +9,7 @@ const Main = styled.body`
 `;
 
 const MobileDisplay = styled.div`
-  background-color: cyan;
+  /* background-color: cyan; */
   /* padding: 20px; */
   display: flex;
   flex-direction: column;
@@ -18,4 +18,11 @@ const MobileDisplay = styled.div`
   width: 100%;
 `;
 
-export { Main, MobileDisplay };
+const ProfileContainer = styled.div`
+  height: 32px;
+  width: 32px;
+  border-radius: 90px;
+  background-color: grey;
+`;
+
+export { Main, MobileDisplay, ProfileContainer };

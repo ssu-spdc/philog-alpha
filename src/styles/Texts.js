@@ -28,6 +28,15 @@ const SectionTitle = styled.text`
     color: #7ce28d;
   }
 `;
+const SectionTitleContainer = styled.div`
+  /* display: flex; */
+  /* flex: 1; */
+  /* background-color: blue; */
+  /* justify-content: center; */
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 320px;
+`;
 
 const CardProfileText = styled.text`
   font-size: 14px;
@@ -45,7 +54,7 @@ const CardProfileText = styled.text`
 const CardInfo = styled.text`
   font-size: 14px;
   font-weight: lighter;
-  word-spacing: -1px;
+  word-spacing: -0.3px;
   /* line-height: 50%; */
 `;
 
@@ -85,6 +94,7 @@ export {
   TopTitle,
   TopText,
   SectionTitle,
+  SectionTitleContainer,
   CardProfileText,
   FormText,
   FormTextContainer,
