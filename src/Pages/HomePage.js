@@ -1,5 +1,5 @@
-import Card from "@/components/Home/Card";
-import HomeTop from "@/components/Home/HomeTop";
+import Card from "@/components/Card";
+import HomeTop from "@/components/HomeTop";
 import { SectionTitle, SectionTitleContainer } from "@/styles/Texts";
 
 export default function HomePage() {
@@ -11,6 +11,7 @@ export default function HomePage() {
           <SectionTitle className="hilight">필로소퍼</SectionTitle>들의 클로버
         </SectionTitle>
       </SectionTitleContainer>
+      <Card />
       <Card />
     </>
   );

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { TopText, TopTitle } from "@/styles/Texts";
-import PhilIcon from "@/icons/phil_icon2.svg";
+import Icon2 from "./Icon2";
 
 export default function HomeTop() {
   return (
@@ -12,7 +12,7 @@ export default function HomeTop() {
           <br />
           <TopTitle className="hilight">클로버</TopTitle>를 모아요!
         </TopTitle>
-        <PhilIconStyled viewBox="-10 -10 450 410" />
+        <Icon2 />
       </RowContainer>
       <TopText>
         필로그에 인증사진 올리고{" "}
@@ -43,8 +43,3 @@ const Spacer = styled.div`
   height: 20px;
 `;
 
-const PhilIconStyled = styled(PhilIcon)`
-  width: 60px;
-  height: 60px;
-  margin-right: 15px;
-`;
