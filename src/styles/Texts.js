@@ -27,6 +27,10 @@ const SectionTitle = styled.text`
   .hilight {
     color: #7ce28d;
   }
+
+  .lighter {
+    font-weight: lighter;
+  }
 `;
 const SectionTitleContainer = styled.div`
   /* display: flex; */
@@ -49,7 +53,7 @@ const CardProfileText = styled.text`
   .button {
     color: #7ce28d;
   }
-`
+`;
 
 const CardInfo = styled.text`
   font-size: 14px;
@@ -58,35 +62,14 @@ const CardInfo = styled.text`
   /* line-height: 50%; */
 `;
 
-
-const FormText = styled.text`
-  font-size: 19px;
+const CountText = styled.text`
+  text-align: center;
+  font-size: 35px;
   font-weight: bold;
-`;
 
-const FormTextContainer = styled.div`
-  display: flex;
-  flex: 1;
-  /* background-color: blue; */
-  justify-content: center;
-`;
-
-const ChecklistText = styled.text`
-  font-size: 17px;
-  font-weight: bold;
-`;
-
-
-
-const NoticeTextContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 250px;
-
-  .red_text {
-    /* white-space: pre-line; */
-    color: #ff0000;
+  .category {
+    font-size: 20px;
+    font-weight: lighter;
   }
 `;
 
@@ -96,9 +79,6 @@ export {
   SectionTitle,
   SectionTitleContainer,
   CardProfileText,
-  FormText,
-  FormTextContainer,
-  ChecklistText,
   CardInfo,
-  NoticeTextContainer,
+  CountText
 };
