@@ -8,7 +8,8 @@ export default function Home() {
   return (
     <Main>
       <MobileDisplay>
-        <WritePage />
+        {/* <WritePage /> */}
+        <HomePage />
       </MobileDisplay>
     </Main>
   );
