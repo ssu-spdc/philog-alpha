@@ -10,7 +10,7 @@ export default function Card() {
         <CardTopLeftContainer>
           <ProfileContainer></ProfileContainer>
           <CardProfileText>
-            박요셉 <CardProfileText className="time">- 1시간</CardProfileText>
+            박요셉 <CardProfileText className="time">• 1시간</CardProfileText>
           </CardProfileText>
         </CardTopLeftContainer>
         <CloverButton>

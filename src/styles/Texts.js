@@ -8,6 +8,10 @@ const TopTitle = styled.text`
   .hilight {
     color: #7ce28d;
   }
+
+  .lighter {
+    font-weight: lighter;
+  }
 `;
 
 const TopText = styled.text`
@@ -33,10 +37,6 @@ const SectionTitle = styled.text`
   }
 `;
 const SectionTitleContainer = styled.div`
-  /* display: flex; */
-  /* flex: 1; */
-  /* background-color: blue; */
-  /* justify-content: center; */
   margin-top: 20px;
   margin-bottom: 20px;
   width: 320px;
