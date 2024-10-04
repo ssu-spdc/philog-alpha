@@ -1,0 +1,6 @@
+/* app/globals.css */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+body {
+  font-family: "Pretendard";
+}

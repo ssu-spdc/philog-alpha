@@ -8,6 +8,12 @@ const Main = styled.body`
   margin: 0px;
 `;
 
+const PageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 320px;
+`;
+
 const MobileDisplay = styled.div`
   /* background-color: cyan; */
   /* padding: 20px; */
@@ -25,4 +31,4 @@ const ProfileContainer = styled.div`
   background-color: grey;
 `;
 
-export { Main, MobileDisplay, ProfileContainer };
+export { Main, PageContainer, MobileDisplay, ProfileContainer };
