@@ -11,6 +11,7 @@ export default function DescriptionInput({ description, setDescription }) {
         placeholder="설명을 입력해주세요. (140자)"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
+        maxLength={140}
       />
     </FlexContainer>
   );
@@ -26,6 +27,7 @@ const DescriptionTextArea = styled.textarea`
   border: none;
   outline: none;
   padding: 10px;
+  line-height: 20px;
 
   &::placeholder {
     color: #c6ccd1;

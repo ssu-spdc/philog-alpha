@@ -1,5 +1,3 @@
-
-
 import React, { useRef } from "react";
 import styled from "styled-components";
 import Camera from "@/icons/camera.svg";
