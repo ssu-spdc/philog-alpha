@@ -31,4 +31,9 @@ const ProfileContainer = styled.div`
   background-color: grey;
 `;
 
-export { Main, PageContainer, MobileDisplay, ProfileContainer };
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export { Main, PageContainer, MobileDisplay, ProfileContainer, FlexContainer };

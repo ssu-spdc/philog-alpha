@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html>
+    <html lang="ko">
       <body>
         <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
       </body>

@@ -73,6 +73,12 @@ const CountText = styled.text`
   }
 `;
 
+const LabelText = styled.text`
+  font-size: 20px;
+  font-weight: 500;
+  color: #191b1c;
+`;
+
 export {
   TopTitle,
   TopText,
@@ -80,5 +86,6 @@ export {
   SectionTitleContainer,
   CardProfileText,
   CardInfo,
-  CountText
+  CountText,
+  LabelText,
 };
