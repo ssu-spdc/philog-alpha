@@ -39,7 +39,8 @@ const SectionTitle = styled.text`
 const SectionTitleContainer = styled.div`
   margin-top: 20px;
   margin-bottom: 20px;
-  width: 320px;
+  width: 290px;
+  /* margin-left: 10px; */
 `;
 
 const CardProfileText = styled.text`

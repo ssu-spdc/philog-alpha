@@ -27,7 +27,7 @@ const HomeTopContainer = styled.div`
   /* background-color: green; */
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 100%;
   padding-left: 10%;
   padding-right: 10%;
 `;

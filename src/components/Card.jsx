@@ -70,7 +70,7 @@ const CardImageContainer = styled.div`
 const CardInfoContainer = styled.div`
   /* background-color: grey; */
   width: 100%;
-  height: 120px;
+  height: 80px;
   /* display: inline-block; */
-  line-height: 1.2;
+  /* line-height: 1.2; */
 `;
