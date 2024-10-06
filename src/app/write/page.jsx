@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import PerCount from "@/components/PerCount";
+import PerCount from "@/app/_component/write/PerCount";
 import PhotoInput from "@/app/_component/write/PhotoInput";
 import CloverTypeButtons from "@/app/_component/write/CloverTypeButtons";
 import DescriptionInput from "@/app/_component/write/DescriptionInput";
