@@ -80,6 +80,16 @@ const LabelText = styled.text`
   color: #191b1c;
 `;
 
+const SideText = styled.text`
+  color: #494f54;
+  text-align: center;
+  font-family: Pretendard;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
 export {
   TopTitle,
   TopText,
@@ -89,4 +99,5 @@ export {
   CardInfo,
   CountText,
   LabelText,
+  SideText,
 };
