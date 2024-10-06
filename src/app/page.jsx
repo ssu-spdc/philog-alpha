@@ -1,8 +1,9 @@
 "use client";
 import { Main, MobileDisplay } from "@/styles/Containers";
-import Card from "@/components/Card";
-import HomeTop from "@/components/HomeTop";
+import Card from "@/app/_component/home/Card";
+import HomeTop from "@/app/_component/home/HomeTop";
 import { SectionTitle, SectionTitleContainer } from "@/styles/Texts";
+
 
 export default function Home() {
   return (
