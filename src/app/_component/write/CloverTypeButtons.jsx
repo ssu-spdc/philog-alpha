@@ -8,8 +8,8 @@ export default function CloverTypeButtons({ activeButton, setActiveButton }) {
       {cloverTypes.map((cloverType) => (
         <SelectButton
           key={cloverType.type}
-          $isActive={activeButton === cloverType.type}
-          onClick={() => setActiveButton(cloverType.type)}
+          $isActive={activeButton.type === cloverType.type}
+          onClick={() => setActiveButton(cloverType)}
         >
           {cloverType.label}
         </SelectButton>

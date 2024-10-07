@@ -4,6 +4,7 @@ import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
 import { SectionTitle } from "@/styles/Texts";
 
 import AllClover from "@/app/_component/rank/AllClover";
+import CategoryClover from "@/app/_component/rank/CategoryClover";
 import RankCard from "@/app/_component/rank/RankCard";
 import CloverTypeButtons from "@/app/_component/write/CloverTypeButtons";
 
@@ -11,9 +12,10 @@ import gold from "@/icons/gold.png";
 import silver from "@/icons/silver.png";
 import bronze from "@/icons/bronze.png";
 import { useState } from "react";
+import { cloverTypes } from "../_constants/type";
 
 export default function RankPage() {
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState(cloverTypes[0]);
 
   return (
     <Main>
@@ -32,6 +34,8 @@ export default function RankPage() {
             activeButton={activeButton}
             setActiveButton={setActiveButton}
           />
+          <div style={{ height: "15px" }} />
+          <CategoryClover cloverType={activeButton.label} />
           <div style={{ height: "15px" }} />
           <RankCard name="박요셉" src={gold} alt="gold rank" count={22} />
           <RankCard name="박요셉" src={silver} alt="silver rank" count={15} />

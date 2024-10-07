@@ -10,9 +10,10 @@ import DescriptionInput from "@/app/_component/write/DescriptionInput";
 import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
 import { SectionTitle, LabelText } from "@/styles/Texts";
 import styled from "styled-components";
+import { cloverTypes } from "../_constants/type";
 
 export default function WritePage() {
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState(cloverTypes[0]);
   const [description, setDescription] = useState("");
   const [photo, setPhoto] = useState(null);
 
@@ -22,7 +23,7 @@ export default function WritePage() {
 
   const handleSubmit = () => {
     const formData = {
-      cloverType: activeButton,
+      cloverType: activeButton.type,
       description,
       photo,
     };
