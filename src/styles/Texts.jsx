@@ -26,7 +26,7 @@ const TopText = styled.text`
 const SectionTitle = styled.text`
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: ${({ $nonMargin }) => ($nonMargin ? "0px" : "15px")};
 
   .hilight {
     color: #7ce28d;
