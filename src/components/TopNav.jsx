@@ -92,7 +92,7 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
   transition: opacity 0.3s ease-in-out;
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)}; // styled-components에 전달하는 props는 DOM으로 직접 전달하지 않겠다는 의도를 보여주기 위해, $을 앞에 붙여줘야 한다. 안 그러면 경고메시지 
   pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
 `;
 
