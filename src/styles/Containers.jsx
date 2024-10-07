@@ -10,6 +10,8 @@ const Main = styled.div`
 
 const PageContainer = styled.div`
   display: flex;
+  flex-direction: column;
+
   justify-content: center;
   width: 320px;
 `;

@@ -1,24 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 import { cloverTypes } from "@/app/_constants/type";
-import { LabelText } from "@/styles/Texts";
 
 export default function CloverTypeButtons({ activeButton, setActiveButton }) {
   return (
-    <div>
-      <LabelText>클로버 종류</LabelText>
-      <BtnContainer>
-        {cloverTypes.map((cloverType) => (
-          <SelectButton
-            key={cloverType.type}
-            $isActive={activeButton === cloverType.type}
-            onClick={() => setActiveButton(cloverType.type)}
-          >
-            {cloverType.label}
-          </SelectButton>
-        ))}
-      </BtnContainer>
-    </div>
+    <BtnContainer>
+      {cloverTypes.map((cloverType) => (
+        <SelectButton
+          key={cloverType.type}
+          $isActive={activeButton.type === cloverType.type}
+          onClick={() => setActiveButton(cloverType)}
+        >
+          {cloverType.label}
+        </SelectButton>
+      ))}
+    </BtnContainer>
   );
 }
 
@@ -26,6 +22,7 @@ const BtnContainer = styled.div`
   margin-top: 15px;
   display: flex;
   gap: 10px;
+  justify-content: space-between;
 `;
 
 const SelectButton = styled.button`

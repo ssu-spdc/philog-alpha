@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import PerCount from "@/app/_component/write/PerCount";
 import PhotoInput from "@/app/_component/write/PhotoInput";
 import CloverTypeButtons from "@/app/_component/write/CloverTypeButtons";
 import DescriptionInput from "@/app/_component/write/DescriptionInput";
 import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
-import { SectionTitle } from "@/styles/Texts";
+import { SectionTitle, LabelText } from "@/styles/Texts";
 import styled from "styled-components";
+import { cloverTypes } from "../_constants/type";
 
 export default function WritePage() {
-  const [activeButton, setActiveButton] = useState(null);
+  const [activeButton, setActiveButton] = useState(cloverTypes[0]);
   const [description, setDescription] = useState("");
   const [photo, setPhoto] = useState(null);
 
@@ -21,7 +23,7 @@ export default function WritePage() {
 
   const handleSubmit = () => {
     const formData = {
-      cloverType: activeButton,
+      cloverType: activeButton.type,
       description,
       photo,
     };
@@ -37,10 +39,13 @@ export default function WritePage() {
           <PerCount />
           <SectionTitle style={{ marginBottom: "4px" }}>글쓰기</SectionTitle>
           <PhotoInput photo={photo} setPhoto={setPhoto} />
-          <CloverTypeButtons
-            activeButton={activeButton}
-            setActiveButton={setActiveButton}
-          />
+          <div>
+            <LabelText>클로버 종류</LabelText>
+            <CloverTypeButtons
+              activeButton={activeButton}
+              setActiveButton={setActiveButton}
+            />
+          </div>
           <DescriptionInput
             description={description}
             setDescription={setDescription}
