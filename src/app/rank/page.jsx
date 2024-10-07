@@ -1,93 +1,31 @@
 "use client";
 
 import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
-import { SectionTitle, TopTitle } from "@/styles/Texts";
-import Image from "next/image";
+import { SectionTitle } from "@/styles/Texts";
+
+import AllClover from "@/app/_component/rank/AllClover";
+import RankCard from "@/app/_component/rank/RankCard";
+
 import gold from "@/icons/gold.png";
-import clover from "@/icons/Union.png";
-import styled from "styled-components";
+import silver from "@/icons/silver.png";
+import bronze from "@/icons/bronze.png";
 
 export default function RankPage() {
   return (
     <Main>
       <MobileDisplay>
-        {/* <PerCount /> */}
-        <TopTitle style={{ textAlign: "center" }}>
-          <TopTitle className="lighter">지금까지 모인</TopTitle>
-          <br />
-          <TopTitle className="hilight">클로버</TopTitle>
-        </TopTitle>
-        <div>
-          <Count>28</Count>
-          <Gae>개</Gae>
-        </div>
+        <div style={{ height: "50px" }} />
+        <AllClover />
+        <div style={{ height: "50px" }} />
+        <PageContainer>
+          <SectionTitle>전체 랭킹</SectionTitle>
+          <RankCard name="박요셉" src={gold} alt="gold rank" count={22} />
+          <RankCard name="박요셉" src={silver} alt="silver rank" count={15} />
+          <RankCard name="박요셉" src={bronze} alt="bronze rank" count={7} />
+          <div style={{ height: "50px" }} />
+          <SectionTitle>클로버 별 랭킹</SectionTitle>
+        </PageContainer>
       </MobileDisplay>
-      <PageContainer>
-        <SectionTitle>전체 랭킹</SectionTitle>
-        <RankContainer>
-          <Image width={36} height={36} src={gold} alt="gold rank" />
-          <ProfileImgContainer />
-          <Nickname>박요셉</Nickname>
-          <div style={{width: '15px'}}/>
-          <CloverCounterContainer>
-            <CloverCount>21</CloverCount>
-            <Image width={25} height={25} src={clover} alt="clover" />
-          </CloverCounterContainer>
-        </RankContainer>
-      </PageContainer>
     </Main>
   );
 }
-
-const Count = styled.text`
-  font-size: 45px;
-`;
-const Gae = styled.text`
-  font-size: 25px;
-`;
-
-const RankContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  /* align-items: ce; */
-  justify-content: space-between;
-  align-items: center;
-  height: 100px;
-  width: 100%;
-  /* background-color: pink; */
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-bottom: 15px;
-`;
-
-const ProfileImgContainer = styled.div`
-  height: 61px;
-  width: 61px;
-  background-color: gray;
-  border-radius: 15px;
-`;
-
-const Nickname = styled.text`
-  font-size: 22px;
-  font-weight: 600;
-`;
-
-const CloverCounterContainer = styled.div`
-  width: 90px;
-  height: 45px;
-  background-color: #f1fff4;
-  border-radius: 8px;
-
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-const CloverCount = styled.text`
-  font-size: 25px;
-  color: #7ce58f;
-  font-weight: bold;
-  margin-right: 6px;
-`;

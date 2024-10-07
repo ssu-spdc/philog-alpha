@@ -41,8 +41,8 @@ export default function TopNav() {
         </FlexDiv>
       </MobileDisplay>
 
-      <Overlay isOpen={isSidebarOpen} onClick={() => setIsSidebarOpen(false)} />
-      <Sidebar isOpen={isSidebarOpen}>
+      <Overlay $isOpen={isSidebarOpen} onClick={() => setIsSidebarOpen(false)} />
+      <Sidebar $isOpen={isSidebarOpen}>
         <SidebarContent>
           <MyContainer>
             <MyProfile>
@@ -92,8 +92,8 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
   transition: opacity 0.3s ease-in-out;
-  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
-  pointer-events: ${({ isOpen }) => (isOpen ? "auto" : "none")};
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
+  pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
 `;
 
 const Sidebar = styled.div`
@@ -105,7 +105,7 @@ const Sidebar = styled.div`
   background-color: white;
   z-index: 20;
   transition: transform 0.3s ease-in-out;
-  transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(100%)")};
+  transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(100%)")};
 `;
 
 const SidebarContent = styled.div`

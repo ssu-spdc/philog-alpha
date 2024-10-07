@@ -29,6 +29,7 @@ const PerCountContainer = styled.div`
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-top: 15px;
   margin-bottom: 15px;
 `;
 
