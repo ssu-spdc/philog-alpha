@@ -4,6 +4,7 @@ import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
 import { SectionTitle, TopTitle } from "@/styles/Texts";
 import Image from "next/image";
 import gold from "@/icons/gold.png";
+import clover from "@/icons/Union.png";
 import styled from "styled-components";
 
 export default function RankPage() {
@@ -27,8 +28,10 @@ export default function RankPage() {
           <Image width={36} height={36} src={gold} alt="gold rank" />
           <ProfileImgContainer />
           <Nickname>박요셉</Nickname>
+          <div style={{width: '15px'}}/>
           <CloverCounterContainer>
             <CloverCount>21</CloverCount>
+            <Image width={25} height={25} src={clover} alt="clover" />
           </CloverCounterContainer>
         </RankContainer>
       </PageContainer>
@@ -47,7 +50,7 @@ const RankContainer = styled.div`
   display: flex;
   flex-direction: row;
   /* align-items: ce; */
-  /* justify-content: center; */
+  justify-content: space-between;
   align-items: center;
   height: 100px;
   width: 100%;
@@ -86,4 +89,5 @@ const CloverCount = styled.text`
   font-size: 25px;
   color: #7ce58f;
   font-weight: bold;
+  margin-right: 6px;
 `;
