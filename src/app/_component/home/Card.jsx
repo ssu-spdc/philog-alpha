@@ -36,7 +36,6 @@ const CardContainer = styled.div`
   justify-content: space-between;
   height: 450px;
   width: 290px;
-  /* background-color: pink; */
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -68,9 +67,6 @@ const CardImageContainer = styled.div`
 `;
 
 const CardInfoContainer = styled.div`
-  /* background-color: grey; */
   width: 100%;
   height: 80px;
-  /* display: inline-block; */
-  /* line-height: 1.2; */
 `;
