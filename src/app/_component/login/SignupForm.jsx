@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
   doc,
   setDoc,
@@ -41,6 +41,10 @@ export default function SignupForm(props) {
         password
       );
       const user = userCredential.user;
+
+      await updateProfile(user, {
+        displayName: name,
+      });
 
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
