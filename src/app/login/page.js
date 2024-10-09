@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "next/navigation"; // useRouter 훅 사용
+import { useRouter } from "next/navigation";
 import { auth, db } from "../../../lib/firebase";
 import Modal from "@/app/_component/login/Modal";
 import SignupForm from "@/app/_component/login/SignupForm";
@@ -13,7 +13,7 @@ export default function Login() {
   const [error, setError] = useState(null);
   const [isSignupOpen, setIsSignupOpen] = useState(false);
 
-  const router = useRouter(); // useRouter 훅 초기화
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ export default function Login() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // 로그인 성공 후 원하는 페이지로 리다이렉트
+
       router.push("/"); // 메인 페이지로 이동
     } catch (err) {
       setError(err.message);

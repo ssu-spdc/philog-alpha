@@ -3,12 +3,17 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, addDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { db, auth } from "../../../lib/firebase";
+
+import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
+import { SectionTitle, LabelText } from "@/styles/Texts";
 import PerCount from "@/app/_component/write/PerCount";
 import PhotoInput from "@/app/_component/write/PhotoInput";
 import CloverTypeButtons from "@/app/_component/write/CloverTypeButtons";
 import DescriptionInput from "@/app/_component/write/DescriptionInput";
-import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
-import { SectionTitle, LabelText } from "@/styles/Texts";
 import styled from "styled-components";
 import { cloverTypes } from "../_constants/type";
 
@@ -16,20 +21,58 @@ export default function WritePage() {
   const [activeButton, setActiveButton] = useState(cloverTypes[0]);
   const [description, setDescription] = useState("");
   const [photo, setPhoto] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [user, setUser] = useState(null);
 
   const router = useRouter();
+  const storage = getStorage();
+
+  // 로그인한 유저 정보 가져오기
+  useState(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      if (currentUser) {
+        setUser(currentUser); // 현재 로그인된 유저 정보 설정
+      }
+    });
+  }, []);
 
   const isReady = photo && activeButton && description;
 
-  const handleSubmit = () => {
-    const formData = {
-      cloverType: activeButton.type,
-      description,
-      photo,
-    };
-    router.push(`/`);
-    // 디버깅 (추후 제거)
-    console.log(formData);
+  const handleSubmit = async () => {
+    if (!isReady) return;
+
+    setIsUploading(true);
+
+    try {
+      // 1. 사진을 Firebase Storage에 업로드
+      const photoRef = ref(storage, `photos/${Date.now()}_${photo.name}`);
+      const uploadResult = await uploadBytes(photoRef, photo);
+
+      // 2. 업로드된 사진의 다운로드 URL 가져오기
+      const photoURL = await getDownloadURL(uploadResult.ref);
+
+      // 3. Firestore에 데이터 저장
+      const formData = {
+        cloverType: activeButton.type,
+        description,
+        photoURL, // 사진 URL 저장
+        createdAt: new Date(), // 작성 시간 저장
+        userId: user.uid, // 사용자의 UID 저장
+        userEmail: user.email, // 사용자의 이메일 저장
+        userDisplayName: user.displayName || "Anonymous", // 사용자의 이름 저장
+      };
+
+      await addDoc(collection(db, "feeds"), formData); // Firestore에 데이터 저장
+
+      
+    } catch (error) {
+      console.error("Error uploading data: ", error);
+    } finally {
+      setIsUploading(false); // 업로드 완료
+
+      // 4. 메인 페이지로 리다이렉트
+      router.push(`/`);
+    }
   };
 
   return (
@@ -52,10 +95,10 @@ export default function WritePage() {
           />
           <WriteBtn
             onClick={handleSubmit}
-            disabled={!isReady}
-            $isReady={isReady}
+            disabled={!isReady || isUploading}
+            $isReady={isReady && !isUploading}
           >
-            등록하기
+            {isUploading ? "업로드 중" : "등록하기"}
           </WriteBtn>
         </PageContainer>
       </MobileDisplay>
