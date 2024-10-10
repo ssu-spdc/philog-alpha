@@ -46,7 +46,7 @@ export default function TopNav() {
         <SidebarContent>
           <MyContainer>
             <MyProfile>
-              <Image width={40} height={40} src={DefaultProfileImage} />
+              <Image width={40} height={40} src={DefaultProfileImage} alt='profile image'/>
             </MyProfile>
             <SideText style={{ fontWeight: "600" }}>백승현님,</SideText>
             <SideText>오늘도 클로버를</SideText>
