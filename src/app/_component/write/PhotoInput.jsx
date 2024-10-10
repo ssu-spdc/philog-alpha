@@ -1,15 +1,17 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import Camera from "@/icons/camera.svg";
 import { LabelText } from "@/styles/Texts";
 
 export default function PhotoInput({ photo, setPhoto }) {
   const fileInputRef = useRef(null);
+  const [uploadImage, setUploadImage] = useState(null);
 
   function loadFile(event) {
     const file = event.target.files[0];
     if (file) {
-      setPhoto(URL.createObjectURL(file));
+      setPhoto(file);
+      setUploadImage(URL.createObjectURL(file));
     }
   }
 
@@ -21,8 +23,8 @@ export default function PhotoInput({ photo, setPhoto }) {
     <form method="post" encType="multipart/form-data">
       <LabelText>인증 사진</LabelText>
       <PhotoPreview onClick={handleClick}>
-        {photo ? (
-          <PreviewImage src={photo} alt="미리보기 이미지" />
+        {uploadImage ? (
+          <PreviewImage src={uploadImage} alt="미리보기 이미지" />
         ) : (
           <Camera />
         )}

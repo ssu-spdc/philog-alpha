@@ -41,11 +41,15 @@ export default function WritePage() {
   const handleSubmit = async () => {
     if (!isReady) return;
 
+    console.log(photo);
     setIsUploading(true);
 
     try {
       // 1. 사진을 Firebase Storage에 업로드
-      const photoRef = ref(storage, `photos/${Date.now()}_${photo.name}`);
+      const photoRef = ref(
+        storage,
+        `photos/${user.uid}/${Date.now()}_${photo.name}`
+      );
       const uploadResult = await uploadBytes(photoRef, photo);
 
       // 2. 업로드된 사진의 다운로드 URL 가져오기
@@ -63,8 +67,6 @@ export default function WritePage() {
       };
 
       await addDoc(collection(db, "feeds"), formData); // Firestore에 데이터 저장
-
-      
     } catch (error) {
       console.error("Error uploading data: ", error);
     } finally {
