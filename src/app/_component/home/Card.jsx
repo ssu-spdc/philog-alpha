@@ -11,9 +11,11 @@ export default function Card({ post }) {
   // 시간 계산을 위한 함수 (1시간 전, 1일 전 등)
   const timeAgo = (time) => {
     const now = new Date();
-    const postTime = new Date(time);
+    // const postTime = new Date(time);
+    const postTime = new Date(time.seconds * 1000 + time.nanoseconds / 1000000);
     const diffInMinutes = Math.floor((now - postTime) / 60000);
-    console.log(diffInMinutes);
+    // console.log(time);
+    // console.log(postTime);
 
     if (diffInMinutes < 60) {
       return `${diffInMinutes}분 전`;
@@ -29,6 +31,7 @@ export default function Card({ post }) {
       <CardTopContainer>
         <CardTopLeftContainer>
           <ProfileContainer></ProfileContainer>
+          <div style={{ width: "5px" }} />
           <CardProfileText>
             {userDisplayName}{" "}
             <CardProfileText className="time">
@@ -74,10 +77,10 @@ const CardContainer = styled.div`
 const CardTopLeftContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
 
-  width: 120px;
+  /* width: 120px; */
   height: 35px;
 `;
 
