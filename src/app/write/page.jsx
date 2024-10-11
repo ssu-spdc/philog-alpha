@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDoc,
+  doc,
+  updateDoc,
+  increment,
+} from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "../../../lib/firebase";
 
@@ -23,15 +30,25 @@ export default function WritePage() {
   const [photo, setPhoto] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   const [user, setUser] = useState(null);
+  const [cloverCounts, setCloverCounts] = useState({});
 
   const router = useRouter();
   const storage = getStorage();
 
-  // 로그인한 유저 정보 가져오기
-  useState(() => {
-    onAuthStateChanged(auth, (currentUser) => {
+  // 로그인한 유저 정보 및 클로버 카운트 불러오기
+  useEffect(() => {
+    onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        setUser(currentUser); // 현재 로그인된 유저 정보 설정
+        setUser(currentUser);
+
+        // Firestore에서 해당 유저의 cloverCounts 데이터 불러오기
+        const userRef = doc(db, "users", currentUser.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          setCloverCounts(userData.cloverCounts || {}); // cloverCounts 가져오기
+        }
       }
     });
   }, []);
@@ -67,12 +84,17 @@ export default function WritePage() {
       };
 
       await addDoc(collection(db, "feeds"), formData); // Firestore에 데이터 저장
+
+      // 4. 유저의 cloverCounts 업데이트
+      const userRef = doc(db, "users", user.uid);
+      await updateDoc(userRef, {
+        [`cloverCounts.${activeButton.type}`]: increment(1), // 해당 클로버 타입의 카운트를 증가시킴
+      });
     } catch (error) {
       console.error("Error uploading data: ", error);
     } finally {
       setIsUploading(false); // 업로드 완료
 
-      // 4. 메인 페이지로 리다이렉트
       router.push(`/`);
     }
   };
@@ -81,7 +103,7 @@ export default function WritePage() {
     <Main>
       <MobileDisplay>
         <PageContainer style={{ flexDirection: "column", gap: "20px" }}>
-          <PerCount />
+          <PerCount cloverCounts={cloverCounts} />
           <SectionTitle style={{ marginBottom: "4px" }}>글쓰기</SectionTitle>
           <PhotoInput photo={photo} setPhoto={setPhoto} />
           <div>
