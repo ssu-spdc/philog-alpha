@@ -34,6 +34,5 @@ const CountTextsContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* background-color: pink; */
   width: 250px;
 `;
