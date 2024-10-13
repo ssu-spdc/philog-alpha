@@ -41,13 +41,17 @@ exports.updateRankings = functions.firestore
     users.sort((a, b) => (b.totalCloverCount || 0) - (a.totalCloverCount || 0));
     let rank = 1;
     for (let user of users) {
-      await admin.firestore().collection("users").doc(user.id).update({
-        totalRank: rank++,
-      });
+      await admin
+        .firestore()
+        .collection("users")
+        .doc(user.id)
+        .update({
+          [`ranks.totalRank.rank`]: rank++,
+        });
     }
 
     // 2. 클로버 타입별 랭킹 계산
-    const cloverTypes = ["용기", "절제", "돈", "지혜"];
+    const cloverTypes = ["courage", "money", "temperance", "wisdom"];
     for (let type of cloverTypes) {
       users.sort(
         (a, b) =>
@@ -61,7 +65,7 @@ exports.updateRankings = functions.firestore
           .collection("users")
           .doc(user.id)
           .update({
-            [`cloverCounts.${type}.rank`]: typeRank++,
+            [`ranks.${type}.rank`]: typeRank++,
           });
       }
     }

@@ -88,6 +88,7 @@ export default function WritePage() {
       // 4. 유저의 cloverCounts 업데이트
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, {
+        [`totalCloverCount`]: increment(1), // 전체 클로버 카운트 증가
         [`cloverCounts.${activeButton.type}`]: increment(1), // 해당 클로버 타입의 카운트를 증가시킴
       });
     } catch (error) {
