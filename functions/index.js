@@ -26,9 +26,6 @@ admin.initializeApp();
 exports.updateRankings = functions.firestore
   .document("users/{userId}")
   .onUpdate(async (change, context) => {
-    const afterData = change.after.data();
-
-    // 전체 유저 데이터 가져오기
     const usersSnapshot = await admin.firestore().collection("users").get();
     let users = [];
 
@@ -37,36 +34,42 @@ exports.updateRankings = functions.firestore
       users.push({ id: doc.id, ...userData });
     });
 
-    // 1. 전체 클로버 수로 전체 랭킹 계산
+    // 1. 전체 랭킹 상위 3명 계산
     users.sort((a, b) => (b.totalCloverCount || 0) - (a.totalCloverCount || 0));
-    let rank = 1;
-    for (let user of users) {
-      await admin
-        .firestore()
-        .collection("users")
-        .doc(user.id)
-        .update({
-          [`ranks.totalRank.rank`]: rank++,
-        });
-    }
+    const top3Total = users.slice(0, 3);
 
-    // 2. 클로버 타입별 랭킹 계산
+    // `ranks` 컬렉션의 totalRank에 상위 3명 업데이트
+    await admin
+      .firestore()
+      .collection("ranks")
+      .doc("totalRank")
+      .set({
+        top3: top3Total.map((user, index) => ({
+          name: user.name,
+          totalCloverCount: user.totalCloverCount,
+          rank: index + 1,
+        })),
+      });
+
+    // 2. 클로버 타입별 상위 3명 계산 및 업데이트
     const cloverTypes = ["courage", "money", "temperance", "wisdom"];
     for (let type of cloverTypes) {
       users.sort(
-        (a, b) =>
-          (b.cloverCounts?.[type]?.count || 0) -
-          (a.cloverCounts?.[type]?.count || 0)
+        (a, b) => (b.cloverCounts?.[type] || 0) - (a.cloverCounts?.[type] || 0)
       );
-      let typeRank = 1;
-      for (let user of users) {
-        await admin
-          .firestore()
-          .collection("users")
-          .doc(user.id)
-          .update({
-            [`ranks.${type}.rank`]: typeRank++,
-          });
-      }
+      const top3Category = users.slice(0, 3);
+
+      // `ranks` 컬렉션의 해당 클로버 타입 문서에 상위 3명 업데이트
+      await admin
+        .firestore()
+        .collection("ranks")
+        .doc(`categoryRanks-${type}`)
+        .set({
+          top3: top3Category.map((user, index) => ({
+            name: user.name,
+            cloverCount: user.cloverCounts?.[type],
+            rank: index + 1,
+          })),
+        });
     }
   });

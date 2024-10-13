@@ -14,7 +14,14 @@ import silver from "@/icons/silver.png";
 import bronze from "@/icons/bronze.png";
 import { cloverTypes } from "../_constants/type";
 
-import { collection, query, orderBy, getDocs } from "firebase/firestore";
+import {
+  collection,
+  query,
+  orderBy,
+  getDocs,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 
 export default function RankPage() {
@@ -25,19 +32,12 @@ export default function RankPage() {
   // 전체 랭킹 불러오기
   useEffect(() => {
     const fetchAllCloverRanks = async () => {
-      try {
-        const usersRef = collection(db, "users");
-        const q = query(usersRef, orderBy("totalRank", "asc")); // 전체 랭킹 기준으로 정렬
-        const querySnapshot = await getDocs(q);
+      const totalRankRef = doc(db, "ranks", "totalRank");
+      const totalRankSnap = await getDoc(totalRankRef);
 
-        let ranks = [];
-        querySnapshot.forEach((doc) => {
-          ranks.push(doc.data());
-        });
-
-        setAllCloverRanks(ranks);
-      } catch (error) {
-        console.error("Error fetching total ranks: ", error);
+      if (totalRankSnap.exists()) {
+        const totalRankData = totalRankSnap.data();
+        setAllCloverRanks(totalRankData.top3 || []);
       }
     };
 
@@ -47,29 +47,17 @@ export default function RankPage() {
   // 클로버 타입별 랭킹 불러오기
   useEffect(() => {
     const fetchCategoryRanks = async () => {
-      try {
-        const usersRef = collection(db, "users");
-        const q = query(
-          usersRef,
-          orderBy(`ranks.${activeButton.type}.rank`, "asc")
-        ); // 선택된 클로버 타입별 rank 기준으로 정렬
-        const querySnapshot = await getDocs(q);
+      const categoryRankRef = doc(
+        db,
+        "ranks",
+        `categoryRanks-${activeButton.type}`
+      );
+      const categoryRankSnap = await getDoc(categoryRankRef);
 
-        let ranks = [];
-        querySnapshot.forEach((doc) => {
-          const userData = doc.data();
-          console.log(userData);
-          const count = userData.cloverCounts?.[activeButton.type] || 0;
-          ranks.push({
-            name: userData.name,
-            rank: userData.ranks?.[activeButton.type]?.rank,
-            count,
-          });
-        });
-
-        setCategoryRanks(ranks);
-      } catch (error) {
-        console.error("Error fetching category ranks: ", error);
+      if (categoryRankSnap.exists()) {
+        const categoryRankData = categoryRankSnap.data();
+        setCategoryRanks(categoryRankData.top3 || []);
+        console.log(categoryRankData.top3);
       }
     };
 
@@ -95,20 +83,18 @@ export default function RankPage() {
         <div style={{ height: "50px" }} />
         <PageContainer>
           <SectionTitle>전체 랭킹</SectionTitle>
-          {fillRankPlaceholders(allCloverRanks.slice(0, 3)).map(
-            (user, index) => {
-              const rankIcons = [gold, silver, bronze];
-              return (
-                <RankCard
-                  key={index}
-                  name={user.name || "빈 사용자"}
-                  src={rankIcons[index]}
-                  alt={`${index + 1} rank`}
-                  count={user.totalCloverCount || "-"}
-                />
-              );
-            }
-          )}
+          {fillRankPlaceholders(allCloverRanks).map((user, index) => {
+            const rankIcons = [gold, silver, bronze];
+            return (
+              <RankCard
+                key={index}
+                name={user.name}
+                src={rankIcons[index]}
+                alt={`${index + 1} rank`}
+                count={user.totalCloverCount || "-"}
+              />
+            );
+          })}
           <div style={{ height: "50px" }} />
           <SectionTitle $nonMargin={true}>클로버 별 랭킹</SectionTitle>
           <CloverTypeButtons
@@ -118,20 +104,18 @@ export default function RankPage() {
           <div style={{ height: "15px" }} />
           <CategoryClover cloverType={activeButton.label} />
           <div style={{ height: "15px" }} />
-          {fillRankPlaceholders(categoryRanks.slice(0, 3)).map(
-            (user, index) => {
-              const rankIcons = [gold, silver, bronze];
-              return (
-                <RankCard
-                  key={index}
-                  name={user.name || "빈 사용자"}
-                  src={rankIcons[index]}
-                  alt={`${index + 1} rank`}
-                  count={user.count || "-"}
-                />
-              );
-            }
-          )}
+          {fillRankPlaceholders(categoryRanks).map((user, index) => {
+            const rankIcons = [gold, silver, bronze];
+            return (
+              <RankCard
+                key={index}
+                name={user.name || "빈 사용자"}
+                src={rankIcons[index]}
+                alt={`${index + 1} rank`}
+                count={user.cloverCount || "-"}
+              />
+            );
+          })}
         </PageContainer>
       </MobileDisplay>
     </Main>
