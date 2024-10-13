@@ -14,14 +14,7 @@ import silver from "@/icons/silver.png";
 import bronze from "@/icons/bronze.png";
 import { cloverTypes } from "../_constants/type";
 
-import {
-  collection,
-  query,
-  orderBy,
-  getDocs,
-  getDoc,
-  doc,
-} from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 
 export default function RankPage() {
