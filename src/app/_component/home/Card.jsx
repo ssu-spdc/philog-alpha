@@ -52,7 +52,7 @@ export default function Card({ post }) {
           alt="post"
           width={260} // 적절한 width 값 추가
           height={280} // 적절한 height 값 추가
-          style={{ objectFit: "cover" }} // 이미지를 적절하게 맞춤
+          style={{ objectFit: "cover", borderRadius: "10px" }} // 이미지를 적절하게 맞춤
           // layout="responsive" // 자동으로 비율에 맞춰 조정
         />
       </CardImageContainer>
