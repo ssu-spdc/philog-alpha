@@ -51,6 +51,13 @@ export default function SignupForm(props) {
         studentId,
         name,
         createdAt: new Date(),
+        cloverCounts: {
+          courage: 0,
+          wisdom: 0,
+          money: 0,
+          temperance: 0,
+        },
+        totalCloverCount: 0,
       });
 
       console.log("회원가입 성공! 모달을 닫습니다.");

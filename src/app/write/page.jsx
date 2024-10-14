@@ -91,26 +91,10 @@ export default function WritePage() {
 
       // 유저의 cloverCounts 업데이트
       const userRef = doc(db, "users", user.uid);
-      const userSnapshot = await getDoc(userRef);
-      if (userSnapshot.exists()) {
-        batch.update(userRef, {
-          [`totalCloverCount`]: increment(1),
-          [`cloverCounts.${activeButton.type}`]: increment(1),
-        });
-      } else {
-        // 해당 유저의 문서가 없을 경우 기본값으로 새 문서 생성
-        const initialCloverCounts = {
-          courage: 0,
-          money: 0,
-          temperance: 0,
-          wisdom: 0,
-        };
-        initialCloverCounts[activeButton.type] = 1; // 해당 타입 클로버 1 추가
-        batch.set(userRef, {
-          totalCloverCount: 1, // 전체 클로버 개수 1로 초기화
-          cloverCounts: initialCloverCounts, // 클로버 카운트 기본값으로 설정
-        });
-      }
+      batch.update(userRef, {
+        [`totalCloverCount`]: increment(1),
+        [`cloverCounts.${activeButton.type}`]: increment(1),
+      });
 
       // 클로버 타입별 카운트 업데이트
       const totalRef = doc(db, "total", activeButton.type);
