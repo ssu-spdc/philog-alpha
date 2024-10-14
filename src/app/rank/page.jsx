@@ -14,7 +14,7 @@ import silver from "@/icons/silver.png";
 import bronze from "@/icons/bronze.png";
 import { cloverTypes } from "../_constants/type";
 
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, writeBatch, increment } from "firebase/firestore";
 import { db } from "../../../lib/firebase";
 
 export default function RankPage() {
@@ -22,16 +22,40 @@ export default function RankPage() {
   const [allCloverRanks, setAllCloverRanks] = useState([]);
   const [categoryRanks, setCategoryRanks] = useState([]);
 
+  const [totalAllClover, setTotalAllClover] = useState(0);
+  const [totalcategoryClover, setTotalCategoryClover] = useState(0);
+
   // 전체 랭킹 불러오기
   useEffect(() => {
     const fetchAllCloverRanks = async () => {
+      const batch = writeBatch(db);
+
       const totalRankRef = doc(db, "ranks", "totalRank");
       const totalRankSnap = await getDoc(totalRankRef);
 
       if (totalRankSnap.exists()) {
         const totalRankData = totalRankSnap.data();
         setAllCloverRanks(totalRankData.top3 || []);
+      } else {
+        // 데이터가 없으면 기본값 설정
+        batch.set(totalRankRef, { top3: [] });
+        setAllCloverRanks([]); // 기본값으로 빈 배열 설정
       }
+
+      const totalCloverRef = doc(db, "total", "allTotal");
+      const totalCloverSnap = await getDoc(totalCloverRef);
+
+      if (totalCloverSnap.exists()) {
+        const totalCloverData = totalCloverSnap.data();
+        setTotalAllClover(totalCloverData.totalCloverCount || 0); // 모든 클로버의 총합
+      } else {
+        // 데이터가 없으면 기본값 설정
+        batch.set(totalCloverRef, { totalCloverCount: 0 });
+        setTotalAllClover(0); // 기본값으로 0 설정
+      }
+
+      // 배치 커밋
+      await batch.commit();
     };
 
     fetchAllCloverRanks();
@@ -40,6 +64,8 @@ export default function RankPage() {
   // 클로버 타입별 랭킹 불러오기
   useEffect(() => {
     const fetchCategoryRanks = async () => {
+      const batch = writeBatch(db);
+
       const categoryRankRef = doc(
         db,
         "ranks",
@@ -50,8 +76,27 @@ export default function RankPage() {
       if (categoryRankSnap.exists()) {
         const categoryRankData = categoryRankSnap.data();
         setCategoryRanks(categoryRankData.top3 || []);
-        console.log(categoryRankData.top3);
+      } else {
+        // 데이터가 없으면 기본값 설정
+        batch.set(categoryRankRef, { top3: [] });
+        setCategoryRanks([]); // 기본값으로 빈 배열 설정
       }
+
+      // 선택된 클로버 타입의 총합 가져오기
+      const categoryCloverRef = doc(db, "total", activeButton.type);
+      const categoryCloverSnap = await getDoc(categoryCloverRef);
+
+      if (categoryCloverSnap.exists()) {
+        const categoryCloverData = categoryCloverSnap.data();
+        setTotalCategoryClover(categoryCloverData.totalCloverCount || 0); // 카테고리별 총합
+      } else {
+        // 데이터가 없으면 기본값 설정
+        batch.set(categoryCloverRef, { totalCloverCount: 0 });
+        setTotalCategoryClover(0); // 기본값으로 0 설정
+      }
+
+      // 배치 커밋
+      await batch.commit();
     };
 
     fetchCategoryRanks();
@@ -72,7 +117,7 @@ export default function RankPage() {
     <Main>
       <MobileDisplay>
         <div style={{ height: "50px" }} />
-        <AllClover />
+        <AllClover count={totalAllClover} />
         <div style={{ height: "50px" }} />
         <PageContainer>
           <SectionTitle>전체 랭킹</SectionTitle>
@@ -95,7 +140,10 @@ export default function RankPage() {
             setActiveButton={setActiveButton}
           />
           <div style={{ height: "15px" }} />
-          <CategoryClover cloverType={activeButton.label} />
+          <CategoryClover
+            count={totalcategoryClover}
+            cloverType={activeButton.label}
+          />
           <div style={{ height: "15px" }} />
           {fillRankPlaceholders(categoryRanks).map((user, index) => {
             const rankIcons = [gold, silver, bronze];

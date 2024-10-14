@@ -11,6 +11,7 @@ import {
   doc,
   updateDoc,
   increment,
+  writeBatch,
 } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import { db, auth } from "../../../lib/firebase";
@@ -85,12 +86,58 @@ export default function WritePage() {
 
       await addDoc(collection(db, "feeds"), formData); // Firestore에 데이터 저장
 
-      // 4. 유저의 cloverCounts 업데이트
+      // 4. 배치 쓰기 시작
+      const batch = writeBatch(db);
+
+      // 유저의 cloverCounts 업데이트
       const userRef = doc(db, "users", user.uid);
-      await updateDoc(userRef, {
-        [`totalCloverCount`]: increment(1), // 전체 클로버 카운트 증가
-        [`cloverCounts.${activeButton.type}`]: increment(1), // 해당 클로버 타입의 카운트를 증가시킴
-      });
+      const userSnapshot = await getDoc(userRef);
+      if (userSnapshot.exists()) {
+        batch.update(userRef, {
+          [`totalCloverCount`]: increment(1),
+          [`cloverCounts.${activeButton.type}`]: increment(1),
+        });
+      } else {
+        // 해당 유저의 문서가 없을 경우 기본값으로 새 문서 생성
+        const initialCloverCounts = {
+          courage: 0,
+          money: 0,
+          temperance: 0,
+          wisdom: 0,
+        };
+        initialCloverCounts[activeButton.type] = 1; // 해당 타입 클로버 1 추가
+        batch.set(userRef, {
+          totalCloverCount: 1, // 전체 클로버 개수 1로 초기화
+          cloverCounts: initialCloverCounts, // 클로버 카운트 기본값으로 설정
+        });
+      }
+
+      // 클로버 타입별 카운트 업데이트
+      const totalRef = doc(db, "total", activeButton.type);
+      const totalSnapshot = await getDoc(totalRef); // 존재 여부 확인
+      if (totalSnapshot.exists()) {
+        batch.update(totalRef, {
+          totalCloverCount: increment(1),
+        });
+      } else {
+        // 해당 문서가 없을 경우 기본값 설정
+        batch.set(totalRef, { totalCloverCount: 1 });
+      }
+
+      // 전체 클로버 총합 (allTotal) 업데이트
+      const allTotalRef = doc(db, "total", "allTotal");
+      const allTotalSnapshot = await getDoc(allTotalRef);
+      if (allTotalSnapshot.exists()) {
+        batch.update(allTotalRef, {
+          totalCloverCount: increment(1),
+        });
+      } else {
+        // 해당 문서가 없을 경우 기본값 설정
+        batch.set(allTotalRef, { totalCloverCount: 1 });
+      }
+
+      // 5. 배치 커밋
+      await batch.commit();
     } catch (error) {
       console.error("Error uploading data: ", error);
     } finally {
