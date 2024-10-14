@@ -3,7 +3,7 @@ import { SectionTitle } from "@/styles/Texts";
 import Icon from "./Icon";
 import CountTexts from "./CountTexts";
 
-export default function PerCount() {
+export default function PerCount({ cloverCounts }) {
   return (
     <PerCountContainer>
       <Icon />
@@ -13,7 +13,7 @@ export default function PerCount() {
         <br />
         <SectionTitle className="hilight">클로버</SectionTitle>
       </SectionTitle>
-      <CountTexts />
+      <CountTexts cloverCounts={cloverCounts} />
     </PerCountContainer>
   );
 }

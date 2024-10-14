@@ -2,7 +2,7 @@ import { TopTitle } from "@/styles/Texts";
 import styled from "styled-components";
 
 export default function CategoryClover(props) {
-  const { cloverType } = props;
+  const { cloverType, count } = props;
 
   return (
     <div style={{ textAlign: "center" }}>
@@ -13,7 +13,7 @@ export default function CategoryClover(props) {
         <TopTitle className="lighter">클로버</TopTitle>
       </TopTitle>
       <div style={{ marginTop: "15px", marginBottom: "15px" }}>
-        <Count>28</Count>
+        <Count>{count}</Count>
         <Gae>개</Gae>
       </div>
     </div>

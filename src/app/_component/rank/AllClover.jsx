@@ -1,7 +1,7 @@
 import { TopTitle } from "@/styles/Texts";
 import styled from "styled-components";
 
-export default function AllClover() {
+export default function AllClover({ count }) {
   return (
     <>
       <TopTitle style={{ textAlign: "center" }}>
@@ -10,7 +10,7 @@ export default function AllClover() {
         <TopTitle className="hilight">클로버</TopTitle>
       </TopTitle>
       <div>
-        <Count>28</Count>
+        <Count>{count}</Count>
         <Gae>개</Gae>
       </div>
     </>

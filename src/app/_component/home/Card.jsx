@@ -2,29 +2,62 @@ import styled from "styled-components";
 import { CardInfo, CardProfileText } from "@/styles/Texts";
 import { ProfileContainer } from "@/styles/Containers";
 import { CloverButton } from "@/styles/Buttons";
+import Image from "next/image";
 
-export default function Card() {
+export default function Card({ post }) {
+  const { userDisplayName, createdAt, cloverType, description, photoURL } =
+    post;
+
+  // 시간 계산을 위한 함수 (1시간 전, 1일 전 등)
+  const timeAgo = (time) => {
+    const now = new Date();
+    // const postTime = new Date(time);
+    const postTime = new Date(time.seconds * 1000 + time.nanoseconds / 1000000);
+    const diffInMinutes = Math.floor((now - postTime) / 60000);
+    // console.log(time);
+    // console.log(postTime);
+
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}분 전`;
+    } else if (diffInMinutes < 1440) {
+      return `${Math.floor(diffInMinutes / 60)}시간 전`;
+    } else {
+      return `${Math.floor(diffInMinutes / 1440)}일 전`;
+    }
+  };
+
   return (
     <CardContainer>
       <CardTopContainer>
         <CardTopLeftContainer>
           <ProfileContainer></ProfileContainer>
+          <div style={{ width: "5px" }} />
           <CardProfileText>
-            박요셉 <CardProfileText className="time">• 1시간</CardProfileText>
+            {userDisplayName}{" "}
+            <CardProfileText className="time">
+              • {timeAgo(createdAt)}
+            </CardProfileText>
           </CardProfileText>
         </CardTopLeftContainer>
         <CloverButton>
           <CardProfileText>
-            <CardProfileText className="button">용기</CardProfileText>
+            <CardProfileText className="button">{cloverType}</CardProfileText>
           </CardProfileText>
         </CloverButton>
       </CardTopContainer>
-      <CardImageContainer />
+      <CardImageContainer>
+        <Image
+          priority={true}
+          src={photoURL}
+          alt="post"
+          width={260} // 적절한 width 값 추가
+          height={280} // 적절한 height 값 추가
+          style={{ objectFit: "cover", borderRadius: "10px" }} // 이미지를 적절하게 맞춤
+          // layout="responsive" // 자동으로 비율에 맞춰 조정
+        />
+      </CardImageContainer>
       <CardInfoContainer>
-        <CardInfo>
-          안녕하세요. 제 이름은 박요셉인데요. 무슨 말을 쓸까 고민을 하면서 아무
-          생각없이 적고 있는데요. 그래서 뭐라고 적는 게 좋을까요? 근데
-        </CardInfo>
+        <CardInfo>{description}</CardInfo>
       </CardInfoContainer>
     </CardContainer>
   );
@@ -45,10 +78,10 @@ const CardContainer = styled.div`
 const CardTopLeftContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
 
-  width: 120px;
+  /* width: 120px; */
   height: 35px;
 `;
 
@@ -61,7 +94,7 @@ const CardTopContainer = styled.div`
 
 const CardImageContainer = styled.div`
   background-color: grey;
-  width: 100%;
+  width: 260px;
   height: 280px;
   border-radius: 10px;
 `;
