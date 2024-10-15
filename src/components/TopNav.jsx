@@ -9,10 +9,14 @@ import DefaultProfileImage from "@/icons/default.png"; // 기본 프로필 이�
 import { SideText } from "@/styles/Texts";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
+import { getAuth } from "firebase/auth";
 
 export default function TopNav() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const router = useRouter();
+
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   const handleLogoClick = () => {
     router.push("/");
@@ -41,22 +45,54 @@ export default function TopNav() {
         </FlexDiv>
       </MobileDisplay>
 
-      <Overlay $isOpen={isSidebarOpen} onClick={() => setIsSidebarOpen(false)} />
+      <Overlay
+        $isOpen={isSidebarOpen}
+        onClick={() => setIsSidebarOpen(false)}
+      />
       <Sidebar $isOpen={isSidebarOpen}>
-        <SidebarContent>
-          <MyContainer>
-            <MyProfile>
-              <Image width={40} height={40} src={DefaultProfileImage} alt='profile image'/>
-            </MyProfile>
-            <SideText style={{ fontWeight: "600" }}>백승현님,</SideText>
-            <SideText>오늘도 클로버를</SideText>
-            <SideText>모아봐요!</SideText>
-          </MyContainer>
-          <ul>
-            <li onClick={() => handleMenuItemClick("/write")}>글쓰기</li>
-            <li onClick={() => handleMenuItemClick("/rank")}>랭킹</li>
-          </ul>
-        </SidebarContent>
+        {user ? (
+          <SidebarContent>
+            <MyContainer>
+              <MyProfile>
+                <Image
+                  width={40}
+                  height={40}
+                  src={DefaultProfileImage}
+                  alt="profile image"
+                />
+              </MyProfile>
+              <SideText style={{ fontWeight: "600" }}>
+                {user.displayName}님,
+              </SideText>
+              <SideText>오늘도 클로버를</SideText>
+              <SideText>모아봐요!</SideText>
+            </MyContainer>
+            <ul>
+              <li onClick={() => handleMenuItemClick("/write")}>글쓰기</li>
+              <li onClick={() => handleMenuItemClick("/rank")}>랭킹</li>
+            </ul>
+          </SidebarContent>
+        ) : (
+          <SidebarContent>
+            <MyContainer>
+              <MyProfile>
+                <Image
+                  width={40}
+                  height={40}
+                  src={DefaultProfileImage}
+                  alt="profile image"
+                />
+              </MyProfile>
+              <SideText style={{ fontWeight: "600" }}>백승현님,</SideText>
+              <SideText>오늘도 클로버를</SideText>
+              <SideText>모아봐요!</SideText>
+            </MyContainer>
+            <ul>
+              <li onClick={() => handleMenuItemClick("/write")}>글쓰기</li>
+              <li onClick={() => handleMenuItemClick("/rank")}>랭킹</li>
+            </ul>
+          </SidebarContent>
+        )}
       </Sidebar>
     </Main>
   );
@@ -92,7 +128,10 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
   transition: opacity 0.3s ease-in-out;
-  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)}; // styled-components에 전달하는 props는 DOM으로 직접 전달하지 않겠다는 의도를 보여주기 위해, $을 앞에 붙여줘야 한다. 안 그러면 경고메시지 
+  opacity: ${({ $isOpen }) =>
+    $isOpen
+      ? 1
+      : 0}; // styled-components에 전달하는 props는 DOM으로 직접 전달하지 않겠다는 의도를 보여주기 위해, $을 앞에 붙여줘야 한다. 안 그러면 경고메시지
   pointer-events: ${({ $isOpen }) => ($isOpen ? "auto" : "none")};
 `;
 
@@ -105,7 +144,8 @@ const Sidebar = styled.div`
   background-color: white;
   z-index: 20;
   transition: transform 0.3s ease-in-out;
-  transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(100%)")};
+  transform: ${({ $isOpen }) =>
+    $isOpen ? "translateX(0)" : "translateX(100%)"};
 `;
 
 const SidebarContent = styled.div`
