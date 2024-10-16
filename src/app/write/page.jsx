@@ -59,10 +59,22 @@ export default function WritePage() {
   const handleSubmit = async () => {
     if (!isReady) return;
 
-    console.log(photo);
     setIsUploading(true);
 
     try {
+      // 0. dailyPostCount의 갯수 검사
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+      const userData = userSnap.data();
+      const dailyPostCount = userData.dailyPostCount || 0;
+
+      // 글 작성 제한: 하루 3개 이상 작성했는지 확인
+      if (dailyPostCount >= 3) {
+        alert("하루에 3개 이상의 글을 작성할 수 없습니다.");
+        setIsUploading(false);
+        return;
+      }
+
       // 1. 사진을 Firebase Storage에 업로드
       const photoRef = ref(
         storage,
@@ -89,11 +101,11 @@ export default function WritePage() {
       // 4. 배치 쓰기 시작
       const batch = writeBatch(db);
 
-      // 유저의 cloverCounts 업데이트
-      const userRef = doc(db, "users", user.uid);
+      // 유저의 cloverCounts, dailyPostCount 업데이트
       batch.update(userRef, {
         [`totalCloverCount`]: increment(1),
         [`cloverCounts.${activeButton.type}`]: increment(1),
+        ["dailyPostCount"]: increment(1),
       });
 
       // 클로버 타입별 카운트 업데이트
