@@ -49,7 +49,7 @@ export default function Card({ post }) {
     <CardContainer>
       <CardTopContainer>
         <CardTopLeftContainer>
-          <ProfileContainer></ProfileContainer>
+          {/* <ProfileContainer></ProfileContainer> */}
           <div style={{ width: "5px" }} />
           <CardProfileText>
             {userDisplayName}{" "}

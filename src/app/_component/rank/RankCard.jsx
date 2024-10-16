@@ -8,9 +8,8 @@ export default function RankCard(props) {
   return (
     <RankContainer>
       <Image width={34} height={34} src={src} alt={alt} />
-      <ProfileImgContainer />
       <Nickname>{name}</Nickname>
-      <div style={{ width: "15px" }} />
+      {/* <div style={{ width: "15px" }} /> */}
       <CloverCounterContainer>
         <CloverCount>{count}</CloverCount>
         <Image width={23} height={23} src={clover} alt="clover" />
@@ -44,6 +43,7 @@ const ProfileImgContainer = styled.div`
 const Nickname = styled.text`
   font-size: 21px;
   font-weight: 600;
+  /* align-self: center; */
 `;
 
 const CloverCounterContainer = styled.div`
