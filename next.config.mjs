@@ -4,6 +4,8 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
+    unoptimized: true, // 이미지 최적화 비활성화
+    domains: ["firebasestorage.googleapis.com"],
     remotePatterns: [
       {
         protocol: "https",
