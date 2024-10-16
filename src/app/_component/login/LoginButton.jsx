@@ -17,4 +17,5 @@ const BottomBtn = styled.button`
   font-weight: 600;
   border-radius: 10px;
   margin: 30px 0;
+  cursor: pointer;
 `;
