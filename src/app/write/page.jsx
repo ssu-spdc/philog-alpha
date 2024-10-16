@@ -24,6 +24,7 @@ import CloverTypeButtons from "@/app/_component/write/CloverTypeButtons";
 import DescriptionInput from "@/app/_component/write/DescriptionInput";
 import styled from "styled-components";
 import { cloverTypes } from "../_constants/type";
+import imageCompression from "browser-image-compression"; // 이미지 압축 라이브러리
 
 export default function WritePage() {
   const [activeButton, setActiveButton] = useState(cloverTypes[0]);
@@ -75,17 +76,25 @@ export default function WritePage() {
         return;
       }
 
-      // 1. 사진을 Firebase Storage에 업로드
+      // 1. 이미지 압축
+      const options = {
+        maxSizeMB: 0.45, // 최대 이미지 크기 설정 (1MB)
+        maxWidthOrHeight: 1024, // 최대 가로/세로 크기 설정
+        useWebWorker: true, // 웹 워커 사용 (성능 향상)
+      };
+      const compressedPhoto = await imageCompression(photo, options);
+
+      // 2. 사진을 Firebase Storage에 업로드
       const photoRef = ref(
         storage,
         `photos/${user.uid}/${Date.now()}_${photo.name}`
       );
-      const uploadResult = await uploadBytes(photoRef, photo);
+      const uploadResult = await uploadBytes(photoRef, compressedPhoto); // 압축된 이미지 업로드
 
-      // 2. 업로드된 사진의 다운로드 URL 가져오기
+      // 3. 업로드된 사진의 다운로드 URL 가져오기
       const photoURL = await getDownloadURL(uploadResult.ref);
 
-      // 3. Firestore에 데이터 저장
+      // 4. Firestore에 데이터 저장
       const formData = {
         cloverType: activeButton.type,
         description,
@@ -98,7 +107,7 @@ export default function WritePage() {
 
       await addDoc(collection(db, "feeds"), formData); // Firestore에 데이터 저장
 
-      // 4. 배치 쓰기 시작
+      // 5. 배치 쓰기 시작
       const batch = writeBatch(db);
 
       // 유저의 cloverCounts, dailyPostCount 업데이트
@@ -132,7 +141,7 @@ export default function WritePage() {
         batch.set(allTotalRef, { totalCloverCount: 1 });
       }
 
-      // 5. 배치 커밋
+      // 6. 배치 커밋
       await batch.commit();
     } catch (error) {
       console.error("Error uploading data: ", error);
