@@ -26,11 +26,30 @@ export default function Card({ post }) {
     }
   };
 
+  const changeCloverName = (cloverType) => {
+    switch (cloverType) {
+      case "temperance":
+        return "절제";
+        break;
+      case "wisdom":
+        return "지혜";
+        break;
+      case "courage":
+        return "용기";
+        break;
+      case "money":
+        return "돈";
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <CardContainer>
       <CardTopContainer>
         <CardTopLeftContainer>
-          <ProfileContainer></ProfileContainer>
+          {/* <ProfileContainer></ProfileContainer> */}
           <div style={{ width: "5px" }} />
           <CardProfileText>
             {userDisplayName}{" "}
@@ -41,7 +60,9 @@ export default function Card({ post }) {
         </CardTopLeftContainer>
         <CloverButton>
           <CardProfileText>
-            <CardProfileText className="button">{cloverType}</CardProfileText>
+            <CardProfileText className="button">
+              {changeCloverName(cloverType)}
+            </CardProfileText>
           </CardProfileText>
         </CloverButton>
       </CardTopContainer>

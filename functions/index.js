@@ -23,6 +23,7 @@ const admin = require("firebase-admin");
 
 admin.initializeApp();
 
+// 기존의 updateRankings 함수
 exports.updateRankings = functions.firestore
   .document("users/{userId}")
   .onUpdate(async (change, context) => {
@@ -72,4 +73,21 @@ exports.updateRankings = functions.firestore
           })),
         });
     }
+  });
+
+// 새로운 resetDailyPostCount 함수
+exports.resetDailyPostCount = functions.pubsub
+  .schedule("every day 00:00")
+  .onRun(async (context) => {
+    const usersSnapshot = await admin.firestore().collection("users").get();
+
+    const batch = admin.firestore().batch();
+
+    usersSnapshot.forEach((doc) => {
+      const userRef = admin.firestore().collection("users").doc(doc.id);
+      batch.update(userRef, { dailyPostCount: 0 });
+    });
+
+    await batch.commit();
+    console.log("모든 유저의 dailyPostCount가 0으로 초기화되었습니다.");
   });
