@@ -53,6 +53,7 @@ export default function SignupPage() {
           temperance: 0,
         },
         totalCloverCount: 0,
+        dailyPostCount: 0,
       });
 
       console.log("회원가입 성공");
