@@ -1,10 +1,25 @@
 import styled from "styled-components";
+import { useRouter } from "next/navigation";
+import { getAuth } from "firebase/auth";
+
 import { TopText, TopTitle } from "@/styles/Texts";
 import Icon2 from "./Icon2";
 
 export default function HomeTop() {
+  const router = useRouter();
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   return (
-    <HomeTopContainer>
+    <HomeTopContainer
+      onClick={() => {
+        if (user) {
+          router.push(`/write`);
+        } else {
+          router.push(`/login`);
+        }
+      }}
+    >
       <Spacer />
       <RowContainer>
         <TopTitle>
@@ -42,4 +57,3 @@ const RowContainer = styled.div`
 const Spacer = styled.div`
   height: 20px;
 `;
-
