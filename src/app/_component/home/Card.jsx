@@ -14,8 +14,6 @@ export default function Card({ post }) {
     // const postTime = new Date(time);
     const postTime = new Date(time.seconds * 1000 + time.nanoseconds / 1000000);
     const diffInMinutes = Math.floor((now - postTime) / 60000);
-    // console.log(time);
-    // console.log(postTime);
 
     if (diffInMinutes < 60) {
       return `${diffInMinutes}분 전`;
