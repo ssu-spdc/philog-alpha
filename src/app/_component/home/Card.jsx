@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { CardInfo, CardProfileText } from "@/styles/Texts";
-import { ProfileContainer } from "@/styles/Containers";
 import { CloverButton } from "@/styles/Buttons";
 import Image from "next/image";
 
