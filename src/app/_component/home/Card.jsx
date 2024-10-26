@@ -2,12 +2,11 @@ import styled from "styled-components";
 import { CardInfo, CardProfileText } from "@/styles/Texts";
 import { CloverButton } from "@/styles/Buttons";
 import Image from "next/image";
+import { deletePost } from "../../../../lib/firebaseFunctions";
 
 export default function Card({ post, onDelete }) {
   const { userDisplayName, createdAt, cloverType, description, photoURL, id } =
     post;
-
-  // console.log(post);
 
   // 시간 계산을 위한 함수 (1시간 전, 1일 전 등)
   const timeAgo = (time) => {
@@ -23,6 +22,11 @@ export default function Card({ post, onDelete }) {
     } else {
       return `${Math.floor(diffInMinutes / 1440)}일 전`;
     }
+  };
+
+  const handleDelete = async () => {
+    await deletePost(id);
+    onDelete(id);
   };
 
   const changeCloverName = (cloverType) => {
@@ -78,6 +82,7 @@ export default function Card({ post, onDelete }) {
       <CardInfoContainer>
         <CardInfo>{description}</CardInfo>
       </CardInfoContainer>
+      <DeleteButton onClick={handleDelete}>삭제</DeleteButton>{" "}
     </CardContainer>
   );
 }
@@ -121,4 +126,16 @@ const CardImageContainer = styled.div`
 const CardInfoContainer = styled.div`
   width: 100%;
   height: 80px;
+`;
+
+// 스타일 추가
+const DeleteButton = styled.button`
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  align-self: flex-end;
 `;

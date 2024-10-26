@@ -10,21 +10,14 @@ import {
   getDocs,
   query,
   orderBy,
-  deleteDoc,
-  doc,
 } from "firebase/firestore"; // orderBy 추가
 import { db } from "../../lib/firebase";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
 
-  const deletePost = async (postId) => {
-    try {
-      await deleteDoc(doc(db, "feeds", postId));
-      console.log("피드가 성공적으로 삭제되었습니다.");
-    } catch (error) {
-      console.error("피드 삭제 중 오류 발생:", error);
-    }
+  const handleDelete = (postId) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
   };
 
   useEffect(() => {
@@ -56,7 +49,7 @@ export default function Home() {
         </SectionTitleContainer>
         {posts.length > 0 ? (
           posts.map((post, index) => (
-            <Card key={index} post={post} onDelete={deletePost} />
+            <Card key={index} post={post} onDelete={handleDelete} />
           ))
         ) : (
           <p>Loading posts...</p>
