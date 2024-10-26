@@ -1,20 +1,17 @@
 "use client";
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // 인증 관련 함수 추가
 import { Main, MobileDisplay } from "@/styles/Containers";
 import Card from "@/app/_component/home/Card";
 import HomeTop from "@/app/_component/home/HomeTop";
 import { SectionTitle, SectionTitleContainer } from "@/styles/Texts";
 
 import { useEffect, useState } from "react";
-import {
-  collection,
-  getDocs,
-  query,
-  orderBy,
-} from "firebase/firestore"; // orderBy 추가
+import { collection, getDocs, query, orderBy } from "firebase/firestore"; // orderBy 추가
 import { db } from "../../lib/firebase";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const handleDelete = (postId) => {
     setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
@@ -35,7 +32,13 @@ export default function Home() {
       setPosts(postsData);
     };
 
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+
     fetchPosts();
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -49,7 +52,12 @@ export default function Home() {
         </SectionTitleContainer>
         {posts.length > 0 ? (
           posts.map((post, index) => (
-            <Card key={index} post={post} onDelete={handleDelete} />
+            <Card
+              key={index}
+              post={post}
+              onDelete={handleDelete}
+              currentUser={currentUser}
+            />
           ))
         ) : (
           <p>Loading posts...</p>

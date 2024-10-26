@@ -4,9 +4,16 @@ import { CloverButton } from "@/styles/Buttons";
 import Image from "next/image";
 import { deletePost } from "../../../../lib/firebaseFunctions";
 
-export default function Card({ post, onDelete }) {
-  const { userDisplayName, createdAt, cloverType, description, photoURL, id } =
-    post;
+export default function Card({ post, onDelete, currentUser }) {
+  const {
+    userDisplayName,
+    createdAt,
+    cloverType,
+    description,
+    photoURL,
+    id,
+    userId,
+  } = post;
 
   // 시간 계산을 위한 함수 (1시간 전, 1일 전 등)
   const timeAgo = (time) => {
@@ -82,7 +89,9 @@ export default function Card({ post, onDelete }) {
       <CardInfoContainer>
         <CardInfo>{description}</CardInfo>
       </CardInfoContainer>
-      <DeleteButton onClick={handleDelete}>삭제</DeleteButton>{" "}
+      {currentUser?.uid === userId && ( // 현재 유저가 작성자일 때만 삭제 버튼 표시
+        <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
+      )}{" "}
     </CardContainer>
   );
 }
