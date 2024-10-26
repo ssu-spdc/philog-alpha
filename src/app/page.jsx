@@ -18,7 +18,11 @@ export default function Home() {
       // createdAt 필드를 기준으로 최신순 정렬
       const postsQuery = query(postsCollection, orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(postsQuery);
-      const postsData = querySnapshot.docs.map((doc) => doc.data());
+      // 각 문서의 ID와 데이터를 함께 저장
+      const postsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setPosts(postsData);
     };
 

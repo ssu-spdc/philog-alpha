@@ -7,6 +7,8 @@ export default function Card({ post }) {
   const { userDisplayName, createdAt, cloverType, description, photoURL } =
     post;
 
+  console.log(post);
+
   // 시간 계산을 위한 함수 (1시간 전, 1일 전 등)
   const timeAgo = (time) => {
     const now = new Date();
