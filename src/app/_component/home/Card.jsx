@@ -3,11 +3,11 @@ import { CardInfo, CardProfileText } from "@/styles/Texts";
 import { CloverButton } from "@/styles/Buttons";
 import Image from "next/image";
 
-export default function Card({ post }) {
-  const { userDisplayName, createdAt, cloverType, description, photoURL } =
+export default function Card({ post, onDelete }) {
+  const { userDisplayName, createdAt, cloverType, description, photoURL, id } =
     post;
 
-  console.log(post);
+  // console.log(post);
 
   // 시간 계산을 위한 함수 (1시간 전, 1일 전 등)
   const timeAgo = (time) => {
