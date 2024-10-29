@@ -55,8 +55,10 @@ export default function Card({ post, onDelete, currentUser }) {
     }
   };
 
+  const isMine = currentUser?.uid === userId;
+
   return (
-    <CardContainer>
+    <CardContainer $isMine={isMine}>
       <CardTopContainer>
         <CardTopLeftContainer>
           <div style={{ width: "5px" }} />
@@ -89,7 +91,7 @@ export default function Card({ post, onDelete, currentUser }) {
       <CardInfoContainer>
         <CardInfo>{description}</CardInfo>
       </CardInfoContainer>
-      {currentUser?.uid === userId && ( // 현재 유저가 작성자일 때만 삭제 버튼 표시
+      {isMine && ( // 현재 유저가 작성자일 때만 삭제 버튼 표시
         <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
       )}{" "}
     </CardContainer>
@@ -97,10 +99,11 @@ export default function Card({ post, onDelete, currentUser }) {
 }
 
 const CardContainer = styled.div`
+  height: ${({ $isMine }) => ($isMine ? "490px" : "450px")};
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 450px;
   width: 290px;
   border-radius: 10px;
   padding: 15px;
@@ -139,12 +142,13 @@ const CardInfoContainer = styled.div`
 
 // 스타일 추가
 const DeleteButton = styled.button`
-  background-color: red;
-  color: white;
+  font-weight: bold;
+  background-color: #e0e5ea;
+  color: #a6abaf;
   border: none;
-  padding: 10px;
+  padding: 5px;
   border-radius: 5px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 3px;
   align-self: flex-end;
 `;
