@@ -55,10 +55,10 @@ export default function Card({ post, onDelete, currentUser }) {
     }
   };
 
-  const isMine = currentUser?.uid === userId;
+  const isOwn = currentUser?.uid === userId;
 
   return (
-    <CardContainer $isMine={isMine}>
+    <CardContainer $isOwn={isOwn}>
       <CardTopContainer>
         <CardTopLeftContainer>
           <div style={{ width: "5px" }} />
@@ -91,7 +91,7 @@ export default function Card({ post, onDelete, currentUser }) {
       <CardInfoContainer>
         <CardInfo>{description}</CardInfo>
       </CardInfoContainer>
-      {isMine && ( // 현재 유저가 작성자일 때만 삭제 버튼 표시
+      {isOwn && ( // 현재 유저가 작성자일 때만 삭제 버튼 표시
         <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
       )}{" "}
     </CardContainer>
@@ -99,7 +99,7 @@ export default function Card({ post, onDelete, currentUser }) {
 }
 
 const CardContainer = styled.div`
-  height: ${({ $isMine }) => ($isMine ? "490px" : "450px")};
+  height: ${({ $isOwn }) => ($isOwn ? "490px" : "450px")};
 
   display: flex;
   flex-direction: column;
