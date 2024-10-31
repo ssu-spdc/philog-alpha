@@ -32,7 +32,7 @@ export default function Card({ post, onDelete, currentUser }) {
   };
 
   const handleDelete = async () => {
-    await deletePost(id, photoURL);
+    await deletePost(id, photoURL, userId, cloverType);
     onDelete(id);
   };
 
