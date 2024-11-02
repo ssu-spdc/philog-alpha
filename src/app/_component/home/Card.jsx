@@ -3,6 +3,7 @@ import { CardInfo, CardProfileText } from "@/styles/Texts";
 import { CloverButton } from "@/styles/Buttons";
 import Image from "next/image";
 import { deletePost } from "../../../../lib/firebaseFunctions";
+import { useState } from "react";
 
 export default function Card({ post, onDelete, currentUser }) {
   const {
@@ -14,6 +15,8 @@ export default function Card({ post, onDelete, currentUser }) {
     id,
     userId,
   } = post;
+
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // 시간 계산을 위한 함수 (1시간 전, 1일 전 등)
   const timeAgo = (time) => {
@@ -34,6 +37,7 @@ export default function Card({ post, onDelete, currentUser }) {
   const handleDelete = async () => {
     await deletePost(id, photoURL, userId, cloverType);
     onDelete(id);
+    setShowDeleteConfirm(false); // 모달 닫기
   };
 
   const changeCloverName = (cloverType) => {
@@ -91,9 +95,26 @@ export default function Card({ post, onDelete, currentUser }) {
       <CardInfoContainer>
         <CardInfo>{description}</CardInfo>
       </CardInfoContainer>
-      {isOwn && ( // 현재 유저가 작성자일 때만 삭제 버튼 표시
-        <DeleteButton onClick={handleDelete}>삭제</DeleteButton>
-      )}{" "}
+      {isOwn && (
+        <>
+          <DeleteButton onClick={() => setShowDeleteConfirm(true)}>
+            삭제
+          </DeleteButton>
+          {showDeleteConfirm && (
+            <ConfirmModal>
+              <ModalContent>
+                <p>정말 삭제하시겠습니까?</p>
+                <ModalActions>
+                  <CancelButton onClick={() => setShowDeleteConfirm(false)}>
+                    취소
+                  </CancelButton>
+                  <ConfirmButton onClick={handleDelete}>삭제</ConfirmButton>
+                </ModalActions>
+              </ModalContent>
+            </ConfirmModal>
+          )}
+        </>
+      )}
     </CardContainer>
   );
 }
@@ -140,15 +161,62 @@ const CardInfoContainer = styled.div`
   height: 80px;
 `;
 
-// 스타일 추가
 const DeleteButton = styled.button`
   font-weight: bold;
   background-color: #e0e5ea;
   color: #a6abaf;
   border: none;
-  padding: 5px;
+  padding: 8px;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 3px;
   align-self: flex-end;
+`;
+
+// 모달 스타일
+const ConfirmModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const ModalContent = styled.div`
+  background-color: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  /* font-weight: bold; */
+`;
+
+const ModalActions = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+`;
+
+const CancelButton = styled.button`
+  background-color: #e0e5ea;
+  color: #a6abaf;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+`;
+
+const ConfirmButton = styled.button`
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
 `;
