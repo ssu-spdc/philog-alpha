@@ -39,7 +39,6 @@ export default function HomeTop() {
 }
 
 const HomeTopContainer = styled.div`
-  /* background-color: green; */
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -50,7 +49,6 @@ const HomeTopContainer = styled.div`
 const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
-  /* background-color: pink; */
   justify-content: space-between;
 `;
 

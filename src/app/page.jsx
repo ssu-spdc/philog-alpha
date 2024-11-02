@@ -1,4 +1,5 @@
 "use client";
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // 인증 관련 함수 추가
 import { Main, MobileDisplay } from "@/styles/Containers";
 import Card from "@/app/_component/home/Card";
 import HomeTop from "@/app/_component/home/HomeTop";
@@ -10,6 +11,11 @@ import { db } from "../../lib/firebase";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const handleDelete = (postId) => {
+    setPosts((prevPosts) => prevPosts.filter((post) => post.id !== postId));
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -18,11 +24,21 @@ export default function Home() {
       // createdAt 필드를 기준으로 최신순 정렬
       const postsQuery = query(postsCollection, orderBy("createdAt", "desc"));
       const querySnapshot = await getDocs(postsQuery);
-      const postsData = querySnapshot.docs.map((doc) => doc.data());
+      // 각 문서의 ID와 데이터를 함께 저장
+      const postsData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setPosts(postsData);
     };
 
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
+
     fetchPosts();
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -35,7 +51,14 @@ export default function Home() {
           </SectionTitle>
         </SectionTitleContainer>
         {posts.length > 0 ? (
-          posts.map((post, index) => <Card key={index} post={post} />)
+          posts.map((post, index) => (
+            <Card
+              key={index}
+              post={post}
+              onDelete={handleDelete}
+              currentUser={currentUser}
+            />
+          ))
         ) : (
           <p>Loading posts...</p>
         )}
