@@ -1,48 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import {
-  collection,
-  addDoc,
-  getDoc,
-  doc,
-  updateDoc,
-  increment,
-  writeBatch,
-} from "firebase/firestore";
-import { onAuthStateChanged } from "firebase/auth";
-import { db, auth } from "../../../lib/firebase";
 
 import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
 import { SectionTitle, LabelText } from "@/styles/Texts";
-import PerCount from "@/app/_component/write/PerCount";
-import PhotoInput from "@/app/_component/write/PhotoInput";
-import CloverTypeButtons from "@/app/_component/write/CloverTypeButtons";
-import DescriptionInput from "@/app/_component/write/DescriptionInput";
+
+import QuestionInput from "@/app/_component/question/QuestionInput";
 import styled from "styled-components";
-import { cloverTypes } from "../_constants/type";
 
 export default function QuestionPage() {
+  const [description, setQuestion] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+
+  const isReady = description !== "" ? true : false;
+
+  const handleSubmit = () => {};
+
   return (
     <Main>
       <MobileDisplay>
         <PageContainer style={{ flexDirection: "column", gap: "20px" }}>
-          <PerCount cloverCounts={cloverCounts} />
           <SectionTitle style={{ marginBottom: "4px" }}>글쓰기</SectionTitle>
-          <PhotoInput photo={photo} setPhoto={setPhoto} />
           <div>
             <LabelText>클로버 종류</LabelText>
-            <CloverTypeButtons
-              activeButton={activeButton}
-              setActiveButton={setActiveButton}
-            />
           </div>
-          <DescriptionInput
-            description={description}
-            setDescription={setDescription}
+          <QuestionInput
+            question={description}
+            setQuestion={setQuestion}
           />
           <WriteBtn
             onClick={handleSubmit}
