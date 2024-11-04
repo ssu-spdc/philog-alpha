@@ -2,18 +2,21 @@
 
 import { useState } from "react";
 
-
 import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
 import { SectionTitle, LabelText } from "@/styles/Texts";
 
 import QuestionInput from "@/app/_component/question/QuestionInput";
+import EmailInput from "@/app/_component/question/EmailInput";
 import styled from "styled-components";
 
+
+
 export default function QuestionPage() {
-  const [description, setQuestion] = useState("");
+  const [question, setQuestion] = useState("");
+  const [email, setEmail] = useState("");
   const [isUploading, setIsUploading] = useState(false);
 
-  const isReady = description !== "" ? true : false;
+  const isReady = question && email;
 
   const handleSubmit = () => {};
 
@@ -22,13 +25,8 @@ export default function QuestionPage() {
       <MobileDisplay>
         <PageContainer style={{ flexDirection: "column", gap: "20px" }}>
           <SectionTitle style={{ marginBottom: "4px" }}>글쓰기</SectionTitle>
-          <div>
-            <LabelText>클로버 종류</LabelText>
-          </div>
-          <QuestionInput
-            question={description}
-            setQuestion={setQuestion}
-          />
+          <EmailInput email={email} setEmail={setEmail} />
+          <QuestionInput question={question} setQuestion={setQuestion} />
           <WriteBtn
             onClick={handleSubmit}
             disabled={!isReady || isUploading}
