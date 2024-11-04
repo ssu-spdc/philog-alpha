@@ -3,13 +3,11 @@
 import { useState } from "react";
 
 import { Main, MobileDisplay, PageContainer } from "@/styles/Containers";
-import { SectionTitle, LabelText } from "@/styles/Texts";
+import { SectionTitle } from "@/styles/Texts";
 
 import QuestionInput from "@/app/_component/question/QuestionInput";
 import EmailInput from "@/app/_component/question/EmailInput";
 import styled from "styled-components";
-
-
 
 export default function QuestionPage() {
   const [question, setQuestion] = useState("");
@@ -23,9 +21,12 @@ export default function QuestionPage() {
   return (
     <Main>
       <MobileDisplay>
-        <PageContainer style={{ flexDirection: "column", gap: "20px" }}>
-          <SectionTitle style={{ marginBottom: "4px" }}>글쓰기</SectionTitle>
+        <PageContainer
+          style={{ flexDirection: "column", gap: "20px", marginTop: "20px" }}
+        >
+          <SectionTitle style={{ marginBottom: "4px" }}>문의하기</SectionTitle>
           <EmailInput email={email} setEmail={setEmail} />
+
           <QuestionInput question={question} setQuestion={setQuestion} />
           <WriteBtn
             onClick={handleSubmit}
