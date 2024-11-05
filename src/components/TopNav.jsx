@@ -71,6 +71,7 @@ export default function TopNav() {
             <ul>
               <li onClick={() => handleMenuItemClick("/write")}>글쓰기</li>
               <li onClick={() => handleMenuItemClick("/rank")}>랭킹</li>
+              <li onClick={() => handleMenuItemClick("/question")}>문의하기</li>
             </ul>
           </SidebarContent>
         ) : (
