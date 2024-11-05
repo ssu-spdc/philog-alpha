@@ -9,14 +9,40 @@ import QuestionInput from "@/app/_component/question/QuestionInput";
 import EmailInput from "@/app/_component/question/EmailInput";
 import styled from "styled-components";
 
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/../lib/firebase";
+
 export default function QuestionPage() {
   const [question, setQuestion] = useState("");
   const [email, setEmail] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  // const [error, setError] = useState(null);
 
   const isReady = question && email;
 
-  const handleSubmit = () => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsUploading(true);
+    // setError(null);
+
+    // 필드가 비어있는지 확인
+    if (!email || !question) {
+      // setError("이메일과 문의 내용을 모두 입력해주세요.");
+      return;
+    }
+
+    try {
+      await setDoc(doc(db, "question", email), {
+        email: email,
+        question: question,
+      });
+
+      // router.push("/");
+      setIsUploading(false);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Main>
@@ -25,6 +51,7 @@ export default function QuestionPage() {
           style={{ flexDirection: "column", gap: "20px", marginTop: "20px" }}
         >
           <SectionTitle style={{ marginBottom: "4px" }}>문의하기</SectionTitle>
+
           <EmailInput email={email} setEmail={setEmail} />
 
           <QuestionInput question={question} setQuestion={setQuestion} />
@@ -32,6 +59,7 @@ export default function QuestionPage() {
             onClick={handleSubmit}
             disabled={!isReady || isUploading}
             $isReady={isReady && !isUploading}
+            type="submit"
           >
             {isUploading ? "업로드 중" : "등록하기"}
           </WriteBtn>
