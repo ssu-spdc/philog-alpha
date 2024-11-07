@@ -7,7 +7,7 @@ import Image from "next/image";
 import MenuIcon from "@/icons/menu_icon.svg";
 import TopLogo from "@/icons/top-logo.png";
 import TopClover from "@/icons/top-clover.png";
-import DefaultProfileImage from "@/icons/default.png"; // 기본 프로필 이미지
+import DefaultProfileImage from "@/icons/default.png";
 import { SideText } from "@/styles/Texts";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
