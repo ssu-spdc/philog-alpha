@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { Main, MobileDisplay } from "@/styles/Containers";
+import InstaIcon from "@/app/_component/topNav/instaIcon";
 import Image from "next/image";
 import MenuIcon from "@/icons/menu_icon.svg";
 import TopLogo from "@/icons/top-logo.png";
 import TopClover from "@/icons/top-clover.png";
-import DefaultProfileImage from "@/icons/default.png"; // 기본 프로필 이미지
+import DefaultProfileImage from "@/icons/default.png";
 import { SideText } from "@/styles/Texts";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
@@ -72,6 +73,9 @@ export default function TopNav() {
               <li onClick={() => handleMenuItemClick("/write")}>글쓰기</li>
               <li onClick={() => handleMenuItemClick("/rank")}>랭킹</li>
               <li onClick={() => handleMenuItemClick("/question")}>문의하기</li>
+              <li style={{ marginTop: "60px" }}>
+                <InstaIcon />
+              </li>
             </ul>
           </SidebarContent>
         ) : (
@@ -93,6 +97,9 @@ export default function TopNav() {
             </MyContainer>
             <ul>
               <li onClick={() => handleMenuItemClick("/login")}>로그인</li>
+              <li style={{ marginTop: "60px" }}>
+                <InstaIcon />
+              </li>
             </ul>
           </SidebarContent>
         )}
