@@ -70,6 +70,8 @@ export default function Page() {
       </form>
       {error && <ErrorText message={error} />}
       <RedirectText type="login" />
+      <div style={{height: '30px'}}/>
+      <RedirectText type="forgotPassword" />
     </>
   );
 }

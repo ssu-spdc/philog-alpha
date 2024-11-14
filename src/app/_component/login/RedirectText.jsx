@@ -2,10 +2,31 @@ import styled from "styled-components";
 import Link from "next/link";
 
 export default function RedirectText({ type }) {
-  const isLogin = type === "login";
-  const message = isLogin ? "아직 가입하지 않았다면?" : "이미 가입을 했다면?";
-  const actionText = isLogin ? "회원가입 하러가기" : "로그인 하러가기";
-  const href = isLogin ? "/register" : "/login";
+  const config = {
+    login: {
+      message: "아직 가입하지 않았다면?",
+      actionText: "회원가입 하러가기",
+      href: "/register",
+    },
+    register: {
+      message: "이미 가입을 했다면?",
+      actionText: "로그인 하러가기",
+      href: "/login",
+    },
+    forgotPassword: {
+      message: "비밀번호를 잊으셨나요?",
+      actionText: "비밀번호 재설정",
+      href: "/reset",
+    },
+    resetPassword: {
+      message: "비밀번호를 변경했다면?",
+      actionText: "로그인 하러가기",
+      href: "/login",
+    },
+  };
+
+  // 기본값을 설정하여 존재하지 않는 타입에 대한 안전성을 확보
+  const { message, actionText, href } = config[type] || config["login"];
 
   return (
     <StyledMessage>
@@ -26,7 +47,7 @@ const StyledMessage = styled.div`
 `;
 
 const Message = styled.div`
-  margin-bottom: 10px;
+  margin-bottom: 3px;
 `;
 
 const StyledLink = styled(Link)`

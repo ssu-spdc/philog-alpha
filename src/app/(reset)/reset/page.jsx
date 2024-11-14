@@ -3,7 +3,7 @@
 import LoginInput from "@/app/_component/login/LoginInput";
 import { useState } from "react";
 import LoginButton from "../../_component/login/LoginButton";
-import RedirectText from "../../_component/reset/RedirectText";
+import RedirectText from "../../_component/login/RedirectText";
 import { useRouter } from "next/navigation";
 import { auth } from "@/../lib/firebase";
 import ErrorText from "@/app/_component/login/ErrorText";
@@ -53,7 +53,7 @@ export default function Page() {
       </form>
       {message && <SendText message={message} />}
       {error && <ErrorText message={error} />}
-      <RedirectText type="login" />
+      <RedirectText type="resetPassword" />
     </>
   );
 }
