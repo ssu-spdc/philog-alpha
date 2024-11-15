@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export default function ErrorText({ message }) {
+export default function SendText({ message }) {
   return (
     <Container>
       <Message>{message}</Message>
@@ -13,7 +13,4 @@ const Container = styled.div`
   margin-bottom: 20px;
 `;
 
-const Message = styled.div`
-  color: #ff4f4f;
-  /* color: black; */
-`;
+const Message = styled.p``;
