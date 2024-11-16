@@ -120,16 +120,16 @@ export default function Card({ post, onDelete, currentUser }) {
 }
 
 const CardContainer = styled.div`
-  height: ${({ $isOwn }) => ($isOwn ? "490px" : "450px")};
+  /* height: ${({ $isOwn }) => ($isOwn ? "510px" : "470px")}; */
 
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   width: 290px;
   border-radius: 10px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 `;
 
 const CardTopLeftContainer = styled.div`
@@ -147,6 +147,7 @@ const CardTopContainer = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 15px;
 `;
 
 const CardImageContainer = styled.div`
@@ -154,11 +155,13 @@ const CardImageContainer = styled.div`
   width: 260px;
   height: 280px;
   border-radius: 10px;
+  margin-bottom: 15px;
 `;
 
 const CardInfoContainer = styled.div`
   width: 100%;
-  height: 80px;
+  /* height: 80px; */
+  margin-bottom: 30px;
 `;
 
 const DeleteButton = styled.button`

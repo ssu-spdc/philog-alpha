@@ -33,6 +33,16 @@ export default function TopNav() {
     setIsSidebarOpen(false);
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      alert("로그아웃 되었습니다.");
+      router.push("/login"); // 로그아웃 후 로그인 페이지로 이동
+    } catch (error) {
+      console.error("로그아웃 중 오류 발생:", error);
+    }
+  };
+
   return (
     <Main>
       <MobileDisplay>
