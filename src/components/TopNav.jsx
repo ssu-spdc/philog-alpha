@@ -11,7 +11,7 @@ import DefaultProfileImage from "@/icons/default.png";
 import { SideText } from "@/styles/Texts";
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 
 export default function TopNav() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -37,7 +37,8 @@ export default function TopNav() {
     try {
       await signOut(auth);
       alert("로그아웃 되었습니다.");
-      router.push("/login"); // 로그아웃 후 로그인 페이지로 이동
+      router.push("/login");
+      setIsSidebarOpen(false);
     } catch (error) {
       console.error("로그아웃 중 오류 발생:", error);
     }
@@ -85,6 +86,12 @@ export default function TopNav() {
               <li onClick={() => handleMenuItemClick("/question")}>문의하기</li>
               <li style={{ marginTop: "60px" }}>
                 <InstaIcon />
+              </li>
+              <li
+                style={{ marginTop: "100px", fontSize: "14px", color: "grey" }}
+                onClick={() => handleLogout()}
+              >
+                로그아웃
               </li>
             </ul>
           </SidebarContent>
@@ -167,6 +174,7 @@ const Sidebar = styled.div`
 
 const SidebarContent = styled.div`
   padding: 20px;
+
   ul {
     list-style: none;
     padding: 0;
