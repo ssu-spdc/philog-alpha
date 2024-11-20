@@ -75,6 +75,7 @@ const CountText = styled.text`
 `;
 
 const LabelText = styled.text`
+  letter-spacing: -0.3px;
   font-size: 20px;
   font-weight: 500;
   color: #191b1c;

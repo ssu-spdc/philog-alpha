@@ -2,18 +2,23 @@ import React from "react";
 import { LabelText } from "@/styles/Texts";
 import { FlexContainer } from "@/styles/Containers";
 import styled from "styled-components";
-import { auth } from "@/../lib/firebase";
 
-export default function EmailInput({ email, setEmail }) {
+export default function EmailInput({
+  email,
+  setEmail,
+  type = "email",
+  label = "답변받을 이메일",
+  placeholder = "이메일을 입력해주세요",
+}) {
   return (
     <FlexContainer style={{ gap: 10 }}>
-      <LabelText>답변받을 이메일</LabelText>
+      <LabelText>{label}</LabelText>
       <EmailTextArea
-        placeholder="이메일을 입력해주세요."
+        placeholder={placeholder}
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         maxLength={140}
-        type="email"
+        type={type}
       />
     </FlexContainer>
   );
