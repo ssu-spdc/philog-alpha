@@ -22,9 +22,10 @@ import PerCount from "@/app/_component/write/PerCount";
 import PhotoInput from "@/app/_component/write/PhotoInput";
 import CloverTypeButtons from "@/app/_component/write/CloverTypeButtons";
 import DescriptionInput from "@/app/_component/write/DescriptionInput";
-import styled from "styled-components";
+
 import { cloverTypes } from "../_constants/type";
 import imageCompression from "browser-image-compression"; // 이미지 압축 라이브러리
+import { WriteBtn } from "@/styles/Buttons";
 
 export default function WritePage() {
   const [activeButton, setActiveButton] = useState(cloverTypes[0]);
@@ -182,21 +183,3 @@ export default function WritePage() {
     </Main>
   );
 }
-
-const WriteBtn = styled.button`
-  width: 320px;
-  height: 56px;
-  border-radius: 10px;
-  background: ${({ $isReady }) => ($isReady ? "#7CE28D" : "#e0e5ea")};
-  font-size: 18px;
-  font-weight: bold;
-  color: ${({ $isReady }) => ($isReady ? "#ffffff" : "#A6ABAF")};
-  cursor: ${({ $isReady }) => ($isReady ? "pointer" : "not-allowed")};
-  border: none;
-
-  &:disabled {
-    background: #e0e5ea;
-    color: #a6abaf;
-    cursor: not-allowed;
-  }
-`;
