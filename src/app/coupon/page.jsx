@@ -16,9 +16,10 @@ export default function Page() {
   const [code, setCode] = useState("");
   const [price, setPrice] = useState("");
   const [isUsed, setIsUsed] = useState(false);
-  const [isOwner, setIsOwner] = useState(true); // 쿠폰 소유자 여부
+  const [isOwner, setIsOwner] = useState(true);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [firstLoading, setFirstLoading] = useState(true); // 초기 로딩 상태
   const [user, setUser] = useState(null);
   const [couponRef, setCouponRef] = useState(null);
   const [couponData, setCouponData] = useState(null);
@@ -29,28 +30,28 @@ export default function Page() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        setUser(currentUser); // 현재 로그인한 사용자 설정
+        setUser(currentUser);
         try {
           const ref = doc(db, "coupon", currentUser.uid);
-          setCouponRef(ref); // couponRef 설정
+          setCouponRef(ref);
           const couponSnap = await getDoc(ref);
 
           if (couponSnap.exists()) {
             const data = couponSnap.data();
-            setCouponData(data); // couponData 설정
-            setPrice(data.price); // 금액 업데이트
-            setIsUsed(data.isUsed); // 사용 여부 업데이트
+            setCouponData(data);
+            setPrice(data.price);
+            setIsUsed(data.isUsed);
           } else {
-            setIsOwner(false); // 소유자 아님
+            setIsOwner(false);
           }
         } catch (err) {
           console.error(err);
           setError("쿠폰 정보를 불러오는 중 문제가 발생했습니다.");
         } finally {
-          setIsLoading(false);
+          setFirstLoading(false); // 초기 로딩 완료
         }
       } else {
-        router.push("/login"); // 로그아웃 상태면 리디렉션
+        router.push("/login");
       }
     });
 
@@ -65,34 +66,32 @@ export default function Page() {
     try {
       if (!user) return;
 
-      // 쿠폰을 이미 썼는지 확인.
       if (isUsed) {
         alert("상품권이 이미 사용됐습니다.");
         setIsLoading(false);
         return;
       }
 
-      if (!couponData || couponData.code != code.trim()) {
+      if (!couponData || couponData.code !== code.trim()) {
+        console.log(couponData, code);
         setError("코드가 틀렸습니다. 다시 확인해주세요.");
         setIsLoading(false);
         return;
       }
 
-      // 5. 배치 쓰기 시작
       const batch = writeBatch(db);
-      // 유저의 isUsed 업데이트
-      batch.update(couponRef, {
-        [`isUsed`]: true,
-      });
-
+      batch.update(couponRef, { isUsed: true });
       await batch.commit();
       setIsUsed(true);
     } catch (error) {
       setError("Error uploading data: ", error);
     } finally {
-      setIsLoading(false); // 업로드 완료
+      setIsLoading(false);
     }
   };
+
+  // 데이터 로드 전, 페이지 렌더링 제한
+  if (firstLoading) return null;
 
   return (
     <Main>
@@ -135,16 +134,13 @@ export default function Page() {
           <div style={{ height: "15px" }} />
           <WriteBtn
             onClick={handleSubmit}
-            disabled={!code || isUsed || !user}
+            disabled={!code || isUsed || !user || isLoading}
             $isReady={code && !isUsed && !isLoading}
           >
-            {isUsed ? "사용 완료" : "사용 확인"}
+            {isUsed ? "사용 완료" : "사용 확인하기"}
           </WriteBtn>
-          {/* <LoginButton text="사용 확인" type="submit" /> */}
         </form>
-        {isLoading && <div>로딩 중...</div>}
         {error && <ErrorText message={error} />}
-        {/* <RedirectText type="resetPassword" /> */}
       </MobileDisplay>
     </Main>
   );
