@@ -58,6 +58,8 @@ export default function Page() {
           placeholder="이메일을 입력해주세요."
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          type="email"
+          autoComplete="email"
         />
         <LoginInput
           label="비밀번호"
@@ -65,12 +67,13 @@ export default function Page() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           type="password"
+          autoComplete="current-password"
         />
         <LoginButton text="로그인" type="submit" />
       </form>
       {error && <ErrorText message={error} />}
       <RedirectText type="login" />
-      <div style={{height: '30px'}}/>
+      <div style={{ height: "30px" }} />
       <RedirectText type="forgotPassword" />
     </>
   );
