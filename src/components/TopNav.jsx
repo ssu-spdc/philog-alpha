@@ -84,6 +84,7 @@ export default function TopNav() {
               <li onClick={() => handleMenuItemClick("/write")}>글쓰기</li>
               <li onClick={() => handleMenuItemClick("/rank")}>랭킹</li>
               <li onClick={() => handleMenuItemClick("/question")}>문의하기</li>
+              <li onClick={() => handleMenuItemClick("/coupon")}>상품권 확인</li>
               <li style={{ marginTop: "60px" }}>
                 <InstaIcon />
               </li>

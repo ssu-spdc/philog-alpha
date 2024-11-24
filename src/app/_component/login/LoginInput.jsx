@@ -8,11 +8,13 @@ export default function CommonInput({
   value,
   onChange,
   type,
+  autoComplete = "off",
 }) {
   return (
     <FlexContainer style={{ gap: 10, marginBottom: 15 }}>
       <LoginLabel>{label}</LoginLabel>
       <StyledTextArea
+        autoComplete={autoComplete}
         placeholder={placeholder}
         value={value}
         onChange={onChange}

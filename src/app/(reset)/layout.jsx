@@ -10,7 +10,6 @@ export default function layout({ children }) {
           <StyledH1>
             비밀번호 변경하기
           </StyledH1>
-          {/* <StyledH2>[윤리적 문제 해결] 이벤트</StyledH2> */}
         </TextContainer>
         {children}
       </MobileDisplay>

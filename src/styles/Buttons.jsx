@@ -11,4 +11,23 @@ const CloverButton = styled.div`
   align-items: center;
 `;
 
-export { CloverButton };
+const WriteBtn = styled.button`
+  width: 320px;
+  height: 56px;
+  border-radius: 10px;
+  background: ${({ $isReady }) => ($isReady ? "#7CE28D" : "#e0e5ea")};
+  font-size: 18px;
+  font-weight: bold;
+  color: ${({ $isReady }) => ($isReady ? "#ffffff" : "#A6ABAF")};
+  cursor: ${({ $isReady }) => ($isReady ? "pointer" : "not-allowed")};
+  border: none;
+
+  &:disabled {
+    background: #e0e5ea;
+    color: #a6abaf;
+    cursor: not-allowed;
+  }
+`;
+
+
+export { CloverButton, WriteBtn };
