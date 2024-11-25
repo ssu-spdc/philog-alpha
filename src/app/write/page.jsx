@@ -171,12 +171,21 @@ export default function WritePage() {
             description={description}
             setDescription={setDescription}
           />
-          <WriteBtn
+          {/* <WriteBtn
             onClick={handleSubmit}
             disabled={!isReady || isUploading}
             $isReady={isReady && !isUploading}
           >
             {isUploading ? "업로드 중" : "등록하기"}
+          </WriteBtn> */}
+          <WriteBtn
+            onClick={() => {
+              alert("이벤트가 종료되었습니다.");
+            }}
+            disabled={true}
+            $isReady={false}
+          >
+            이벤트 마감
           </WriteBtn>
         </PageContainer>
       </MobileDisplay>
