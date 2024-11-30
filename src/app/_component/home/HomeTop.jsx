@@ -29,7 +29,7 @@ export default function HomeTop() {
         <Icon2 />
       </RowContainer>
       <TopText>
-        <span className="hilight">11월 29일</span>을 마지막으로 이후로 이벤트가
+        <span className="hilight">11월 29일</span>을 마지막으로 이벤트가
         종료됐습니다.
       </TopText>
       <Spacer />
