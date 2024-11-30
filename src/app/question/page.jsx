@@ -64,7 +64,10 @@ export default function QuestionPage() {
           <QuestionInput question={question} setQuestion={setQuestion} />
           {error && <ErrorText>{error}</ErrorText>}
           <WriteBtn
-            onClick={handleSubmit}
+            // onClick={handleSubmit}
+            onClick={() => {
+              alert("등록이 마감됐습니다.");
+            }}
             disabled={!isReady || isUploading}
             $isReady={isReady && !isUploading}
             type="submit"
