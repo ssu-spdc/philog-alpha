@@ -23,15 +23,14 @@ export default function HomeTop() {
       <Spacer />
       <RowContainer>
         <TopTitle>
-          필로그에서
-          <br />
-          <TopTitle className="hilight">클로버</TopTitle>를 모아요!
+          <span className="hilight">필로그</span>를 참여해주셔서 <br />
+          감사합니다!
         </TopTitle>
         <Icon2 />
       </RowContainer>
       <TopText>
-        필로그에 인증사진 올리고{" "}
-        <TopText className="hilight">1등 도전하기 {">"}</TopText>
+        <span className="hilight">11월 29일</span>을 마지막으로 이벤트가
+        종료됐습니다.
       </TopText>
       <Spacer />
     </HomeTopContainer>

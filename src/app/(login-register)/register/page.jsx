@@ -80,7 +80,8 @@ export default function SignupPage() {
 
   return (
     <>
-      <form onSubmit={handleSignup}>
+      <form onSubmit={() => alert("이벤트가 종료되었습니다.")}>
+        {/* <form onSubmit={handleSignup}> */}
         <LoginInput
           label="이메일"
           placeholder="이메일을 입력해주세요."
