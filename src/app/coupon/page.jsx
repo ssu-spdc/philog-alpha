@@ -31,6 +31,7 @@ export default function Page() {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        console.log(isUsed);
         try {
           const ref = doc(db, "coupon", currentUser.uid);
           setCouponRef(ref);
